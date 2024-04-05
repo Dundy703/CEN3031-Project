@@ -1,0 +1,19 @@
+.list {
+    margin-left: 2%;
+}
+
+.list textarea {
+    font-family: Arial, sans-serif;
+    height: 100px;
+    width: 300px;
+}
+.list img {
+    display: none;
+}
+
+.list img[src] {
+    display: block;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
