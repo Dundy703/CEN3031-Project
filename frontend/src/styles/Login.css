@@ -1,0 +1,45 @@
+.login {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.login h1 {
+    font-size: 60px;
+    color: #162738;
+}
+
+.login p {
+    display: inline-block;
+    line-height: 40px;
+    margin-top: 40px;
+    width: 530px;
+}
+
+.login label {
+    float: left;
+    font-size: 24px;
+    left: 0;
+}
+
+.login input {
+    float: right;
+    right: 0;
+    height: 40px;
+    font-size: 24px;
+    width: 300px;
+}
+
+.login button {
+    color: #162738;
+    cursor: pointer;
+    background-color: #d4f2fc;
+    margin-top: 100px;
+    border-radius: 10px;
+    border-color: #162738;
+    height: 100px;
+    width: 530px;
+    font-size: 40px;
+    text-decoration: none;
+    justify-content: center;
+}
