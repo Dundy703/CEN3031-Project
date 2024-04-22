@@ -3,7 +3,9 @@ import Logo from '../assets/LogoNoWords.png';
 import {Link} from 'react-router-dom';
 import '../styles/Navbar.css';
 
-function Navbar() {
+function Navbar(props) {
+  const {loggedIn} = props;
+
   return (
     <div className="navbar">
       <div className="leftSide">
@@ -13,7 +15,7 @@ function Navbar() {
         <Link to="/">Home</Link>
         <Link to="/shop">Shop</Link>
         <Link to="/about">About</Link>
-        <Link to="/login">Log&nbsp;in</Link>
+        <Link to="/login">{loggedIn ? 'Log out' : 'Log in'}</Link>
       </div>
     </div>
   );

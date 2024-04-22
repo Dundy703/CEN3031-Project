@@ -1,0 +1,15 @@
+{
+  "name": "cen3031-project",
+  "version": "1.0.0",
+  "description": "- **Connor Devaney - Product Manager/Frontend Developer**\r - **Gavin Grave de Peralta - Scrum Master/Frontend Developer**\r - **Anthony Gomez - Database Engineer/Backend Developer**\r - **Adriano Arias - Backend Developer**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "start": "node backend/src/index.js"
+  }
+}

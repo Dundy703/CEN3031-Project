@@ -22,7 +22,7 @@
     left: 0;
 }
 
-.signup input {
+.signup .input {
     float: right;
     right: 0;
     height: 40px;
@@ -30,7 +30,7 @@
     width: 300px;
 }
 
-.signup button {
+#submit {
     color: #162738;
     cursor: pointer;
     background-color: #d4f2fc;
