@@ -1,28 +1,28 @@
-.signup {
+.login {
     width: 100%;
     height: auto;
     text-align: center;
 }
 
- h1 {
+.login h1 {
     font-size: 60px;
     color: #162738;
 }
 
-.signup p {
+.login p {
     display: inline-block;
     line-height: 40px;
     margin-top: 40px;
     width: 530px;
 }
 
-.signup label {
+.login label {
     float: left;
     font-size: 24px;
     left: 0;
 }
 
-.signup input {
+.login input {
     float: right;
     right: 0;
     height: 40px;
@@ -30,7 +30,7 @@
     width: 300px;
 }
 
-button {
+.login button {
     color: #162738;
     cursor: pointer;
     background-color: #d4f2fc;
@@ -42,36 +42,4 @@ button {
     font-size: 40px;
     text-decoration: none;
     justify-content: center;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    justify-content: center;
-}
-
-.info label {
-    text-align: right; /* Align the text of the label to the right */
-    white-space: nowrap; /* Prevent label text from wrapping */
-    margin: 0; /* Reset margin */
-}
-
-.info input {
-    
-}
-
-.info {
-    text-align: left;
-}
-
-.info img {
-    display: none;
-}
-
-.info img[src] {
-    display: block;
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
 }
