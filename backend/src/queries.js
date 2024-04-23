@@ -77,12 +77,12 @@ const createMessages = (request, response) => {
     })
   }
 const listItem = (request, response) => {
-  const {itemName, itemDescription, itemCategory,imageData,itemTags} = request.body;
+  const {itemName, itemDescription, itemPrice, imageData,} = request.body;
   pool.query('INSERT INTO "Image" ("ImageData", "ItemName") VALUES ($1,$2)',[imageData, itemName], (error, results) => {
     if (error) {
       throw error
     }
-    pool.query('INSERT INTO "Items" ("ItemName", "ItemDescription","ItemCategory","ItemImageID","ItemTags") VALUES ($1,$2,$3,(SELECT "Image_ID" FROM "Image" WHERE "ItemName" = ($1)),$4)', [itemName, itemDescription, itemCategory,itemTags], (error,results) => {
+    pool.query('INSERT INTO "Items" ("ItemName", "ItemDescription","ItemPrice","ItemImageID") VALUES ($1,$2,$3,(SELECT "Image_ID" FROM "Image" WHERE "ItemName" = ($1)))', [itemName, itemDescription, itemPrice], (error,results) => {
       if (error) {
         throw error
       }
