@@ -1,7 +1,7 @@
 const Pool = require('pg').Pool
 const fs = require('fs');
 const bcrypt = require('bcrypt');
-const jsonwebtoken = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const secretKey = 'in-the-age-of-chaos-two-factions-battle-for-dominance';
 
 // postgres server connection information
@@ -86,7 +86,7 @@ const verifyUser = (request, response) => {
         }
   
         if (result) {
-            const token = jsonwebtoken.sign({ userEmail }, secretKey, { expiresIn: '4h' });
+            const token = jwt.sign({ userEmail }, secretKey, { expiresIn: '4h' });
             response.status(200).json({ token, message: 'Successful Login' });
         } else {
           response.status(401).send('Incorrect Username or Password.');
@@ -113,9 +113,20 @@ const getUsers = (request, response) => {
     })
   }
 
+  const checkToken = (request, response) => {
+    const token = request.headers.authorization.split(' ')[1];
+    jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        return response.status(401).json({ message: 'Unauthorized'});
+      }
+      response.json({ message: 'Success', email: decoded});
+    });
+  };
+
   module.exports = {
     getUsers,
     createUser,
     updateUser,
-    verifyUser
+    verifyUser,
+    checkToken
   }

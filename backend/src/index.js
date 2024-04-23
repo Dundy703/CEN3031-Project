@@ -52,6 +52,8 @@ app.post('/offers/cleanOffers',db.cleanOffers)
 app.post('/offers/getImageFromUserEmail',db.getImageFromUserEmail)
 app.post('/offers/getImageFromItem',db.getImageFromItem)
 
+app.get('/auth/checkToken', auth.checkToken)
+
 
 
 

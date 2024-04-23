@@ -1,10 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import '../styles/Login.css';
 
-function Login() {
+function Login(props) {
+    let navigate = useNavigate();
     const [formData, setFormData] = useState({
         userEmail: '',
         userPassword: '',
@@ -25,9 +26,10 @@ function Login() {
             .then((response) => {
                 console.log(response.data);
                 if(response.data.message == "Successful Login"){
-                    console.log(":)");
                     localStorage.setItem('token', response.data.token);
-                    localStorage.setItem('email', formData.userEmail);
+                    props.setLoggedIn(true);
+                    props.setEmail(formData.userEmail);
+                    navigate("/");
                 };
             })
             .catch(error => {
