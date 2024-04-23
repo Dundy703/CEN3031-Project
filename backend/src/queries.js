@@ -108,7 +108,6 @@ const likeItems = (request, reponse) => {
     })
 }
 
-pool.query('SELECT * FROM "Items" WHERE "ItemName" LIKE '%bike%'')
 //How to get both the image info and item info in one query
 const categoryListing = (request, response) => {
   // execute the SELECT query, query results are put into results

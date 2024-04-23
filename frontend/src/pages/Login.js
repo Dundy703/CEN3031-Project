@@ -6,6 +6,7 @@ import '../styles/Login.css';
 
 function Login(props) {
     let navigate = useNavigate();
+    const [error, setError] = useState('');
     const [formData, setFormData] = useState({
         userEmail: '',
         userPassword: '',
@@ -20,6 +21,7 @@ function Login(props) {
     };
 
     const handleSubmit = (e) => {
+        setError('');
         e.preventDefault();
         console.log(formData);
         axios.post(`http://localhost:3001/users/verifyUser`, formData)
@@ -33,7 +35,8 @@ function Login(props) {
                 };
             })
             .catch(error => {
-                console.error('There was an error!', error.response.data);
+                setError(error.response.data);
+
             });
     };
 
@@ -50,6 +53,8 @@ function Login(props) {
                     <label htmlFor="password">Password: </label>
                     <input name="userPassword" type="password" value={formData.userPassword} onChange={handleChange} />
                 </p>
+                <br />
+                <a id="errorText">{error}</a>
                 <br />
                 <button type="submit">Log in</button>
                 <br />

@@ -89,7 +89,7 @@ const verifyUser = (request, response) => {
             const token = jwt.sign({ userEmail }, secretKey, { expiresIn: '4h' });
             response.status(200).json({ token, message: 'Successful Login' });
         } else {
-          response.status(401).send('Incorrect Username or Password.');
+          response.status(401).send('Incorrect Username or Password');
         }
       });
     });

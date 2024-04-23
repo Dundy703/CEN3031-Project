@@ -8,6 +8,7 @@ import '../styles/Signup.css';
 function Signup(props) {
     let navigate = useNavigate();
     const [fileURL, setFileURL] = useState();
+
     function handleImgChange(e) {
         setFileURL(URL.createObjectURL(e.target.files[0]));
         const file = e.target.files[0];
@@ -67,10 +68,10 @@ function Signup(props) {
     };
 
     const handleSubmit = (e) => {
+        e.preventDefault();
         console.log(page);
         if(page == 1) setPage(2);
         else{
-            e.preventDefault();
             console.log(formData);
             axios.post("http://localhost:3001/users/createUser", formData)
                 .then((response) => {

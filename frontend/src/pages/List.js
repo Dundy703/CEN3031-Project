@@ -1,34 +1,60 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
 import '../styles/List.css'
 
-function List() {
+function List(props) {
+    let navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        itemName: '',
+        itemPrice: '',
+        itemDescription: '',
+        imageData: '',
+        sellerEmail: props.email,
+    });
 
-    /*window.addEventListener('load', function () {
-        document.querySelector('input[type="file"]').addEventListener('change', function () {
-            if (this.files && this.files[0]) {
-                var img = document.getElementsByClassName("image")[0];
-                img.onload = () => {
-                    URL.revokeObjectURL(img.style.backgroundImage);  // no longer needed, free memory
-                }
-
-                img.style.backgroundImage = "url(" + URL.createObjectURL(this.files[0]) + ")"; // set src to blob url
-            }
-        });
-    });*/
     const [fileURL, setFileURL] = useState();
-    const [file, setFile] = useState();
-    function handleChange(e) {
+
+    const handleChange = (e) => {
+        let { name, value } = e.target;
+        if(name == "itemPrice") {
+            value = parseInt(value);
+            if(isNaN(value)) value = '';
+        }
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    function handleImgChange(e) {
         setFileURL(URL.createObjectURL(e.target.files[0]));
-        setFile(e.target.files[0]);
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            const imageData = event.target.result;
+            
+            setFileURL(imageData);
+            setFormData(prevState => ({
+                ...prevState,
+                imageData: imageData
+            }));
+        };
+
+        reader.readAsDataURL(file);
     }    
 
     function handleSubmit(e) {
         e.preventDefault();
-        const userEmail = "me@mail.com";
-        axios.get(`http://localhost:3001/users/findUser?userEmail=${userEmail}`).then((response) => {
-           console.log(response.data);
-        });
+        console.log(formData);
+        axios.post("http://localhost:3001/items/listItem", formData)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
     }
  
     return (
@@ -37,17 +63,22 @@ function List() {
                 <h1>List an Item</h1>
                 <p>
                     <label for="name">Item Name: </label>
-                    <input name="name"></input>
+                    <input name="itemName" value={formData.itemName} onChange={handleChange} />
                 </p>
                 <br />
                 <p>
                     <label for="description">Description: </label>
-                    <textarea name="description"></textarea>
+                    <textarea name="itemDescription" type="textarea" value={formData.itemDescription} onChange={handleChange} />
+                </p>
+                <br />
+                <p>
+                    <label for="price">Price: </label>
+                    <input name="itemPrice" value={formData.itemPrice} onChange={handleChange} />
                 </p>
                 <br />
                 <p>
                     <label for="image">Image: </label>
-                    <input type="file" name="image" accept="image/*" onChange={handleChange}></input>
+                    <input type="file" name="image" accept="image/*" onChange={handleImgChange}></input>
                     <br />
                     <img className="image" src={fileURL} />
                 </p>
