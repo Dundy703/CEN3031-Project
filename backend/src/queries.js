@@ -82,7 +82,7 @@ const listItem = (request, response) => {
     if (error) {
       throw error
     }
-    pool.query('INSERT INTO "Items" ("ItemName", "ItemDescription","ItemPrice","ItemImageID") VALUES ($1,$2,$3,(SELECT "Image_ID" FROM "Image" WHERE "ItemName" = ($1)))', [itemName, itemDescription, itemPrice], (error,results) => {
+    pool.query('INSERT INTO "Items" ("ItemName", "ItemDescription","ItemPrice","ItemImageID") VALUES ($1,$2,$3,(SELECT "Image_ID" FROM "Image" WHERE "ItemName" = ($1) ORDER BY "Image_ID" DESC LIMIT 1))', [itemName, itemDescription, itemPrice], (error,results) => {
       if (error) {
         throw error
       }
