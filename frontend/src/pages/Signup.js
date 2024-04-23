@@ -65,6 +65,7 @@ function Signup() {
                 });
         }
     };
+    
     return (
         <div>
             {page === 1 && (
@@ -87,13 +88,14 @@ function Signup() {
                     <br />
                     <button type="submit">Next</button>
                     <br />
-                    <Link to="/login">Already have an account? Sign in</Link>
+                    <Link to="/login"><p>Already have an account? Sign in</p></Link>
                 </form>
             )}
             {page === 2 && (
                 <form onSubmit={handleSubmit} className="info">   
                     <h1>Additional Information</h1>
                     <div className="form-grid">  
+                        <div>
                         <p>
                             <label htmlFor="firstname">First Name: </label>
                             <input name="userFirstName" value={formData.userFirstName} onChange={handleChange} />
@@ -128,12 +130,14 @@ function Signup() {
                             <label htmlFor="zipcode">Zip Code: </label>
                             <input name="userZipCode" value={formData.userZipCode} onChange={handleChange} />
                         </p>
-                        <br />
+                        </div>
+                        <div>
                         <p>
                             <label for="image">Image: </label>
                             <input type="file" name="image" accept="image/*" onChange={handleImgChange}></input>
                             <img className="image" src={fileURL} />
                         </p>
+                        </div>
                     </div>
                     <br />
                     <button type="submit">Create your account</button>
