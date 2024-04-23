@@ -23,10 +23,10 @@ function Login() {
         console.log(formData);
         axios.post(`http://localhost:3001/users/verifyUser`, formData)
             .then((response) => {
-                console.log(response.data);
+                if(response.data == "Authentication successful") console.log(":)");
             })
             .catch(error => {
-                console.error('There was an error!', error);
+                console.error('There was an error!', error.response.data);
             });
     };
 
