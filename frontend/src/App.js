@@ -4,6 +4,7 @@ import Home from './pages/Home.js';
 import Signup from './pages/Signup.js';
 import Login from './pages/Login.js';
 import List from './pages/List.js';
+import Shop from './pages/Shop.js';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react'
@@ -39,9 +40,9 @@ function App() {
         <Navbar loggedIn={loggedIn}/>
         <Routes>
           <Route path="/" element={<Home email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>} />
-          <Route path="/signup" exact element={<Signup />} />
+          <Route path="/signup" exact element={<Signup setLoggedIn={setLoggedIn} setEmail={setEmail} />} />
           <Route path="/login" exact element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} />} />
-          <Route path="/shop" exact element={<List />} />
+          <Route path="/shop" exact element={<Shop />} />
         </Routes>
       </Router>
     </div>

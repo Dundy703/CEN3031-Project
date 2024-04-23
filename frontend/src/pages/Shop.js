@@ -86,7 +86,7 @@ function Shop() {
     };
   
     return (
-      <div className="app">
+      <div className="shop">
         <AnimatePresence custom={swipeDirection}>
           {items.length > 0 && currentIndex < items.length && (
             <motion.div
