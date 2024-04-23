@@ -4,7 +4,7 @@
     text-align: center;
 }
 
-.signup h1 {
+ h1 {
     font-size: 60px;
     color: #162738;
 }
@@ -30,7 +30,7 @@
     width: 300px;
 }
 
-.signup button {
+button {
     color: #162738;
     cursor: pointer;
     background-color: #d4f2fc;
@@ -42,4 +42,36 @@
     font-size: 40px;
     text-decoration: none;
     justify-content: center;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    justify-content: center;
+}
+
+.info label {
+    text-align: right; /* Align the text of the label to the right */
+    white-space: nowrap; /* Prevent label text from wrapping */
+    margin: 0; /* Reset margin */
+}
+
+.info input {
+    
+}
+
+.info {
+    text-align: left;
+}
+
+.info img {
+    display: none;
+}
+
+.info img[src] {
+    display: block;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
 }
