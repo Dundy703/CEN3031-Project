@@ -58,11 +58,11 @@ button {
 }
 
 .info input {
-    float: right
+    
 }
 
 .info {
-    text-align: center;
+    text-align: left;
 }
 
 .info img {

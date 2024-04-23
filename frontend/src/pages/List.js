@@ -24,20 +24,9 @@ function List() {
     }    
 
     function handleSubmit(e) {
-        const url = './http://localhost:3000/uploadFile';
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('fileName', file.name);
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data',
-            },
-        };
-        const email = {
-            userEmail: "me@mail.com"
-        };
-        //console.log(file);
-        axios.get("http://localhost:3001/users/findUser", email).then((response) => {
+        e.preventDefault();
+        const userEmail = "me@mail.com";
+        axios.get(`http://localhost:3001/users/findUser?userEmail=${userEmail}`).then((response) => {
            console.log(response.data);
         });
     }
