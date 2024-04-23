@@ -32,13 +32,13 @@ const getUsers = (request, response) => {
   }
 const createUser = (request, response) => {
       // get data to insert from the request body
-      const { imageData, userEmail, phoneNumber, userUsername,userPasssword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
+      const { imageData, userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
       // execute the INSERT query, get the results back so we can confirm
       pool.query('INSERT INTO "Image" ("ImageData", "UserEmail") VALUES ($1,$2)',[imageData, userEmail], (error, results) => {
         if (error) {
           throw error
         }
-        pool.query('INSERT INTO "Users" ("UserEmail", "UserPhoneNumber","UserUsername","UserPassword","UserFirstName", "UserMiddleName","UserLastName","UserAddressLine1","UserAddressLine2","UserState","UserCity","UserZipCode","UserProfilePictureID") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,(SELECT "Image_ID" FROM "Image" WHERE "UserEmail" = ($1)))', [userEmail, phoneNumber, userUsername,userPasssword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode], (error,results) => {
+        pool.query('INSERT INTO "Users" ("UserEmail", "UserPhoneNumber","UserUsername","UserPassword","UserFirstName", "UserMiddleName","UserLastName","UserAddressLine1","UserAddressLine2","UserState","UserCity","UserZipCode","UserProfilePictureID") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,(SELECT "Image_ID" FROM "Image" WHERE "UserEmail" = ($1)))', [userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode], (error,results) => {
           if (error) {
             throw error
           }
@@ -47,12 +47,12 @@ const createUser = (request, response) => {
     })
   }
 const updateUser = (request, response) => {
-  const { imageData, userEmail, phoneNumber, userUsername,userPasssword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
+  const { imageData, userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
   pool.query('UPDATE "Image"  SET "ImageData" = ($1) WHERE "UserEmail" = ($2)',[imageData, userEmail], (error, results) => {
     if (error) {
       throw error
     }
-    pool.query('UPDATE "Users" SET "UserEmail" = ($1), "UserPhoneNumber" = ($2), "UserUsername" = ($3),"UserPassword" = ($4),"UserFirstName" = ($5), "UserMiddleName" = ($6),"UserLastName" = ($7),"UserAddressLine1" = ($8),"UserAddressLine2" = ($9),"UserState" = ($10),"UserCity" = ($11),"UserZipCode" = ($12),"UserProfilePictureID" = (SELECT "Image_ID" FROM "Image" WHERE "UserEmail" = ($1)) WHERE "UserEmail" = ($1)', [userEmail, phoneNumber, userUsername,userPasssword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode], (error,results) => {
+    pool.query('UPDATE "Users" SET "UserEmail" = ($1), "UserPhoneNumber" = ($2), "UserUsername" = ($3),"UserPassword" = ($4),"UserFirstName" = ($5), "UserMiddleName" = ($6),"UserLastName" = ($7),"UserAddressLine1" = ($8),"UserAddressLine2" = ($9),"UserState" = ($10),"UserCity" = ($11),"UserZipCode" = ($12),"UserProfilePictureID" = (SELECT "Image_ID" FROM "Image" WHERE "UserEmail" = ($1)) WHERE "UserEmail" = ($1)', [userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode], (error,results) => {
       if (error) {
         throw error
       }
