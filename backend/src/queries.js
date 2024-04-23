@@ -98,6 +98,17 @@ const allItems = (request, response) => {
       response.status(200).json(results.rows)
     })
 }
+const likeItems = (request, reponse) => {
+  const {itemName} = request.query.itemName;
+  pool.query('SELECT * FROM "Items" WHERE "ItemName" LIKE \'%($1)%\'', [itemName], (error,results) => {
+    if (error) {
+      throw error
+    }
+      response.status(200).json(results.rows)
+    })
+}
+
+pool.query('SELECT * FROM "Items" WHERE "ItemName" LIKE '%bike%'')
 //How to get both the image info and item info in one query
 const categoryListing = (request, response) => {
   // execute the SELECT query, query results are put into results
@@ -237,6 +248,7 @@ module.exports = {
     updateOffer,
     cleanOffers,
     getImageFromItem,
-    getImageFromUserEmail
+    getImageFromUserEmail,
+    likeItems,
   }
 
