@@ -9,7 +9,7 @@ app.use(cors());
 // access service APIs from http://localhost:port
 const port = 3001
 
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '10mb' }))
 app.use(
   bodyParser.urlencoded({
     extended: true,
