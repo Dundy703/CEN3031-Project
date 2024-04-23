@@ -5,6 +5,7 @@ import Signup from './pages/Signup.js';
 import Login from './pages/Login.js';
 import List from './pages/List.js';
 import Shop from './pages/Shop.js';
+import Account from './pages/Account.js';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react'
@@ -27,7 +28,7 @@ function App() {
     })
     .then((response) => {
       setLoggedIn("Success" == response.data.message);
-      setEmail(response.data.email);
+      setEmail(response.data.email.userEmail);
     })
     .catch(error => {
       console.error('Error:', error);
@@ -44,6 +45,7 @@ function App() {
           <Route path="/login" exact element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} />} />
           <Route path="/shop" exact element={<Shop />} />
           <Route path="/list" exact element={<List email={email}/>} />
+          <Route path="/account" exact element={<Account email={email}/>} />
         </Routes>
       </Router>
     </div>

@@ -14,7 +14,7 @@ function Navbar(props) {
       <div className="rightSide">
         <Link to="/">Home</Link>
         <Link to="/shop">Shop</Link>
-        <Link to="/list">About</Link>
+        <Link to="/list">List</Link>
         <Link to={loggedIn ? '/account' : '/login'}>{loggedIn ? 'Account' : 'Log in'}</Link>
       </div>
     </div>
