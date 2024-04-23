@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios'
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useState } from 'react';
 import '../styles/Signup.css';
 
 
-function Signup() {
+function Signup(props) {
+    let navigate = useNavigate();
     const [fileURL, setFileURL] = useState();
     function handleImgChange(e) {
         setFileURL(URL.createObjectURL(e.target.files[0]));
@@ -13,10 +14,8 @@ function Signup() {
         const reader = new FileReader();
 
         reader.onload = function(event) {
-            // Convert the binary data to a base64-encoded string
             const imageData = event.target.result;
             
-            // Set the base64-encoded image data in the state
             setFileURL(imageData);
             setFormData(prevState => ({
                 ...prevState,
@@ -24,9 +23,26 @@ function Signup() {
             }));
         };
 
-        // Read the image file as a data URL (base64-encoded string)
         reader.readAsDataURL(file);
     }    
+
+    function login(){
+        axios.post(`http://localhost:3001/users/verifyUser`, formData)
+            .then((response) => {
+                console.log(response.data);
+                if(response.data.message == "Successful Login"){
+                    localStorage.setItem('token', response.data.token);
+                    props.setLoggedIn(true);
+                    props.setEmail(formData.userEmail);
+                    navigate("/");
+                };
+            })
+            .catch(error => {
+                console.error('There was an error!', error.response.data);
+            });
+    }
+
+
     const [page, setPage] = useState(1);
     const [formData, setFormData] = useState({
         imageData: '',
@@ -59,6 +75,7 @@ function Signup() {
             axios.post("http://localhost:3001/users/createUser", formData)
                 .then((response) => {
                     console.log(response.data);
+                    login();
                 })
                 .catch(error => {
                     console.error('There was an error!', error);

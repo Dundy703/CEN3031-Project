@@ -3,11 +3,11 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-.app {
+.shop {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
   background-color: #f0f0f0;
 }
 
@@ -43,7 +43,7 @@ p {
   margin-top: 20px;
 }
 
-button {
+.shop button {
   padding: 15px 50px;
   border: none;
   background-color: #56e3ff;
@@ -54,6 +54,6 @@ button {
   font-weight: 500; /* Medium weight for buttons */
 }
 
-button:hover {
+.shop button:hover {
   background-color: #0056b3;
 }
