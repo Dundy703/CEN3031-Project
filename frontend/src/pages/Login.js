@@ -23,7 +23,12 @@ function Login() {
         console.log(formData);
         axios.post(`http://localhost:3001/users/verifyUser`, formData)
             .then((response) => {
-                if(response.data == "Authentication successful") console.log(":)");
+                console.log(response.data);
+                if(response.data.message == "Successful Login"){
+                    console.log(":)");
+                    localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('email', formData.userEmail);
+                };
             })
             .catch(error => {
                 console.error('There was an error!', error.response.data);
@@ -44,7 +49,7 @@ function Login() {
                     <input name="userPassword" type="password" value={formData.userPassword} onChange={handleChange} />
                 </p>
                 <br />
-                <button type="submit">Next</button>
+                <button type="submit">Log in</button>
                 <br />
                 <Link to="/signup"><p>Don't have an account? Sign up</p></Link>
             </form>

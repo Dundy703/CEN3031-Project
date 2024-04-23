@@ -87,7 +87,7 @@ const verifyUser = (request, response) => {
   
         if (result) {
             const token = jsonwebtoken.sign({ userEmail }, secretKey, { expiresIn: '4h' });
-            response.status(200).json({ token, message: 'Succesful Login' });
+            response.status(200).json({ token, message: 'Successful Login' });
         } else {
           response.status(401).send('Incorrect Username or Password.');
         }
