@@ -4,12 +4,15 @@
   "description": "- **Connor Devaney - Product Manager/Frontend Developer**\r - **Gavin Grave de Peralta - Scrum Master/Frontend Developer**\r - **Anthony Gomez - Database Engineer/Backend Developer**\r - **Adriano Arias - Backend Developer**",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node backend/src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "scripts": {
-    "start": "node backend/src/index.js"
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "pg": "^8.11.5"
   }
 }

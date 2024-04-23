@@ -30,15 +30,36 @@ const getUsers = (request, response) => {
       response.status(200).json(results.rows)
     })
   }
+
+const getOffersFromItem = (request, response) => {
+  const {itemName} = request.body;
+  pool.query('SELECT * FROM "Items" WHERE "Item_ID" = ($1)', [itemName], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getOffersFromUserEmail = (request, response) => {
+  const {userEmail} = request.body;
+  pool.query('SELECT * FROM "Users" WHERE "UserEmail" = ($1)', [userEmail], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 const createUser = (request, response) => {
       // get data to insert from the request body
-      const { imageData, userEmail, phoneNumber, userUsername,userPasssword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
+      const { imageData, userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
       // execute the INSERT query, get the results back so we can confirm
       pool.query('INSERT INTO "Image" ("ImageData", "UserEmail") VALUES ($1,$2)',[imageData, userEmail], (error, results) => {
         if (error) {
           throw error
         }
-        pool.query('INSERT INTO "Users" ("UserEmail", "UserPhoneNumber","UserUsername","UserPassword","UserFirstName", "UserMiddleName","UserLastName","UserAddressLine1","UserAddressLine2","UserState","UserCity","UserZipCode","UserProfilePictureID") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,(SELECT "Image_ID" FROM "Image" WHERE "UserEmail" = ($1)))', [userEmail, phoneNumber, userUsername,userPasssword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode], (error,results) => {
+        pool.query('INSERT INTO "Users" ("UserEmail", "UserPhoneNumber","UserUsername","UserPassword","UserFirstName", "UserMiddleName","UserLastName","UserAddressLine1","UserAddressLine2","UserState","UserCity","UserZipCode","UserProfilePictureID") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,(SELECT "Image_ID" FROM "Image" WHERE "UserEmail" = ($1)))', [userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode], (error,results) => {
           if (error) {
             throw error
           }
@@ -47,12 +68,12 @@ const createUser = (request, response) => {
     })
   }
 const updateUser = (request, response) => {
-  const { imageData, userEmail, phoneNumber, userUsername,userPasssword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
+  const { imageData, userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
   pool.query('UPDATE "Image"  SET "ImageData" = ($1) WHERE "UserEmail" = ($2)',[imageData, userEmail], (error, results) => {
     if (error) {
       throw error
     }
-    pool.query('UPDATE "Users" SET "UserEmail" = ($1), "UserPhoneNumber" = ($2), "UserUsername" = ($3),"UserPassword" = ($4),"UserFirstName" = ($5), "UserMiddleName" = ($6),"UserLastName" = ($7),"UserAddressLine1" = ($8),"UserAddressLine2" = ($9),"UserState" = ($10),"UserCity" = ($11),"UserZipCode" = ($12),"UserProfilePictureID" = (SELECT "Image_ID" FROM "Image" WHERE "UserEmail" = ($1)) WHERE "UserEmail" = ($1)', [userEmail, phoneNumber, userUsername,userPasssword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode], (error,results) => {
+    pool.query('UPDATE "Users" SET "UserEmail" = ($1), "UserPhoneNumber" = ($2), "UserUsername" = ($3),"UserPassword" = ($4),"UserFirstName" = ($5), "UserMiddleName" = ($6),"UserLastName" = ($7),"UserAddressLine1" = ($8),"UserAddressLine2" = ($9),"UserState" = ($10),"UserCity" = ($11),"UserZipCode" = ($12),"UserProfilePictureID" = (SELECT "Image_ID" FROM "Image" WHERE "UserEmail" = ($1)) WHERE "UserEmail" = ($1)', [userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode], (error,results) => {
       if (error) {
         throw error
       }
@@ -168,6 +189,35 @@ const updateSoldFlag = (request, response) => {
     response.status(200).json(results.rows)
   })
   }
+const createOffer = (request, response) => {
+  const {itemName, sellerEmail, buyerEmail, offerPrice, dateSent} = request.body;
+  pool.query('INSERT INTO "Offers" ("Item_ID", "Seller_ID", "Buyer_ID", "OfferPrice", "OfferSentDate", ApprovedFlag) VALUES ((SELECT "Item_ID" FROM "Items" WHERE "ItemName" = ($1)) , (SELECT "User_ID"  FROM "Users" WHERE "UserEmail" = ($2)), (SELECT "User_ID"  FROM "Users" WHERE "UserEmail" = ($3)), $4, $5, (FALSE))', [itemName, sellerEmail, buyerEmail, offerPrice, dateSent], (error, results) => {
+    if (error) {
+      throw error
+    }
+      response.status(200).json(results.rows)
+    })
+}
+const updateOffer = (request, response) => {
+  const {sellerEmail, buyerEmail} = request.body;
+  pool.query('UPDATE "Offers" SET "ApprovedFlag" = TRUE WHERE "Seller_ID" = (SELECT "User_ID" FROM "Users" WHERE "UserEmail" = $1) AND "Buyer_ID" = (SELECT "User_ID" FROM "Users" WHERE "UserEmail" = $2)', [sellerEmail, buyerEmail], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows)
+    }
+  )
+}
+const cleanOffers = (request, response) => {
+  const {itemName} = request.body;
+  pool.query('DELETE FROM "Offers" WHERE "ApprovedFlag" = FALSE AND WHERE "Item_ID" = (SELECT "Item_ID" FROM "Items" WHERE "ItemName" = $1)', [itemName], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows)
+    }
+  )
+}
 const createOrder = (request, response) => {
   const {itemName, sellerEmail, buyerEmail,salePrice} = request.body;
   pool.query('INSERT INTO "Orders" ("Item_ID", "Seller_ID","Buyer_ID","SalePrice") VALUES ((SELECT "Item_ID" FROM "Items" WHERE "ItemName" = ($1)),(SELECT "User_ID"  FROM "Users" WHERE "UserEmail" = ($2)),(SELECT "User_ID"  FROM "Users" WHERE "UserEmail" = ($3)),$4)', [itemName, sellerEmail, buyerEmail,salePrice], (error,results) => {
@@ -205,5 +255,10 @@ module.exports = {
     updateSoldFlag,
     createOrder,
     searchOrder,
+    createOffer,
+    getOffersFromItem,
+    getOffersFromUserEmail,
+    updateOffer,
+    cleanOffers
   }
 
