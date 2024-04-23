@@ -33,16 +33,13 @@ function List() {
                 'content-type': 'multipart/form-data',
             },
         };
-        console.log(file);
-        //axios.post(url, formData, config).then((response) => {
-        //    console.log(response.data);
-        //});
-        const testF = new FormData();
-        fetch("http://localhost:3001/r/")
-            .then((res) => res.json())
-            .then((data) => console.log(data.message))
-            .catch((error) => console.error("Error:", error));
-        e.preventDefault();
+        const email = {
+            userEmail: "me@mail.com"
+        };
+        //console.log(file);
+        axios.get("http://localhost:3001/users/findUser", email).then((response) => {
+           console.log(response.data);
+        });
     }
  
     return (
