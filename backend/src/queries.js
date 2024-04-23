@@ -15,24 +15,10 @@ const pool = new Pool({
   } 
 })
 
-// method to get all users in the DB table
-const getUsers = (request, response) => {
-    // execute the SELECT query, query results are put into results
-    const {userEmail} = request.body;
-    pool.query('SELECT * FROM "Users" WHERE "UserEmail" = ($1)', [userEmail], (error, results) => {
-      // if there's an error (query typo, server connection issue, etc), throw (will crash the service)
-      if (error) {
-        throw error
-      }
-      // return the query results
-      // HTTP code 200 = "success" for GET methods
-      // results.rows gives the actual query data
-      response.status(200).json(results.rows)
-    })
-  }
+
 
 const getOffersFromItem = (request, response) => {
-  const {itemName} = request.body;
+  const itemName = request.query.itemName;
   pool.query('SELECT * FROM "Items" WHERE "Item_ID" = ($1)', [itemName], (error, results) => {
     if (error) {
       throw error
@@ -42,7 +28,7 @@ const getOffersFromItem = (request, response) => {
 }
 
 const getOffersFromUserEmail = (request, response) => {
-  const {userEmail} = request.body;
+  const userEmail = request.query.userEmail;
   pool.query('SELECT * FROM "Users" WHERE "UserEmail" = ($1)', [userEmail], (error, results) => {
     if (error) {
       throw error
@@ -51,38 +37,29 @@ const getOffersFromUserEmail = (request, response) => {
   })
 }
 
-const createUser = (request, response) => {
-      // get data to insert from the request body
-      const { imageData, userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
-      // execute the INSERT query, get the results back so we can confirm
-      pool.query('INSERT INTO "Image" ("ImageData", "UserEmail") VALUES ($1,$2)',[imageData, userEmail], (error, results) => {
-        if (error) {
-          throw error
-        }
-        pool.query('INSERT INTO "Users" ("UserEmail", "UserPhoneNumber","UserUsername","UserPassword","UserFirstName", "UserMiddleName","UserLastName","UserAddressLine1","UserAddressLine2","UserState","UserCity","UserZipCode","UserProfilePictureID") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,(SELECT "Image_ID" FROM "Image" WHERE "UserEmail" = ($1)))', [userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode], (error,results) => {
-          if (error) {
-            throw error
-          }
-          response.status(201).send(`User added`)
-      })
-    })
-  }
-const updateUser = (request, response) => {
-  const { imageData, userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
-  pool.query('UPDATE "Image"  SET "ImageData" = ($1) WHERE "UserEmail" = ($2)',[imageData, userEmail], (error, results) => {
+const getImageFromUserEmail = (request, response) => {
+  const userEmail = request.query.userEmail;
+  pool.query('SELECT "ImageData" FROM "Image" WHERE "Image_ID" = (SELECT "UserProfilePictureID" FROM "Users" WHERE "UserEmail" = ($1))', [userEmail], (error, results) => {
     if (error) {
       throw error
     }
-    pool.query('UPDATE "Users" SET "UserEmail" = ($1), "UserPhoneNumber" = ($2), "UserUsername" = ($3),"UserPassword" = ($4),"UserFirstName" = ($5), "UserMiddleName" = ($6),"UserLastName" = ($7),"UserAddressLine1" = ($8),"UserAddressLine2" = ($9),"UserState" = ($10),"UserCity" = ($11),"UserZipCode" = ($12),"UserProfilePictureID" = (SELECT "Image_ID" FROM "Image" WHERE "UserEmail" = ($1)) WHERE "UserEmail" = ($1)', [userEmail, phoneNumber, userUsername,userPassword,userFirstName,userMiddleName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode], (error,results) => {
-      if (error) {
-        throw error
-      }
-      response.status(201).send(`User updated`)
-    })
+    response.status(200).json(results.rows)
   })
-  }
+}
+
+const getImageFromItem = (request, response) => {
+  const itemName = request.query.itemName;
+  pool.query('SELECT "ImageData" FROM "Image" WHERE "Image_ID" = (SELECT "ItemImageID" FROM "Items" WHERE "itemName" = ($1))', [itemName], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 const showMessages = (request, response) => {
-    const {senderEmail, receiverEmail} = request.body;
+    const senderEmail = request.query.senderEmail;
+    const receiverEmail = request.query.receiverEmail;
     pool.query('SELECT * FROM "Messages" WHERE "Receiver_ID" = (SELECT "User_ID" FROM "Users" WHERE "UserEmail" = ($2)) AND "Sender_ID" = (SELECT "User_ID" FROM "Users" WHERE "UserEmail" = ($1))', [senderEmail, receiverEmail], (error, results) => {
       if (error) {
         throw error
@@ -124,7 +101,7 @@ const allItems = (request, response) => {
 //How to get both the image info and item info in one query
 const categoryListing = (request, response) => {
   // execute the SELECT query, query results are put into results
-  const {itemCategory} = request.body;
+  const itemCategory = request.query.itemCategory;
   pool.query('SELECT * FROM "Items" WHERE "ItemCategory" = ($1)', [itemCategory], (error, results) => {
     // if there's an error (query typo, server connection issue, etc), throw (will crash the service)
     if (error) {
@@ -138,7 +115,7 @@ const categoryListing = (request, response) => {
   }
 const specificListing = (request, response) => {
   // execute the SELECT query, query results are put into results
-  const {itemName} = request.body;
+  const itemName = request.query.itemName;
   pool.query('SELECT * FROM "Items" WHERE "ItemName" = ($1)', [itemName], (error, results) => {
     if (error) {
       throw error
@@ -148,7 +125,7 @@ const specificListing = (request, response) => {
   }  
 const tagListing = (request, response) => {
   // execute the SELECT query, query results are put into results
-  const {itemTag} = request.body;
+  const itemTag = request.query.itemTag;
   pool.query('SELECT * FROM "Items" WHERE "ItemTags" = ($1)', [itemTag], (error, results) => {
     if (error) {
       throw error
@@ -158,7 +135,7 @@ const tagListing = (request, response) => {
   }  
 const soldListing = (request, response) => {
   // execute the SELECT query, query results are put into results
-  const {soldFlag} = request.body;
+  const soldFlag = request.query.soldFlag;
   pool.query('SELECT * FROM "Items" WHERE "ItemSoldFlag" = ($1)', [soldFlag], (error, results) => {
     if (error) {
       throw error
@@ -229,7 +206,9 @@ const createOrder = (request, response) => {
   }
 const searchOrder = (request, response) => {
   // execute the SELECT query, query results are put into results
-  const {itemName,sellerEmail, buyerEmail} = request.body;
+  const itemName = request.query.itemName;
+  const sellerEmail = request.query.sellerEmail;
+  const buyerEmail = request.query.buyerEmail;
   pool.query('SELECT * FROM "Orders" WHERE "Item_ID" = (SELECT "Item_ID" FROM "Items" WHERE "ItemName" = ($1)) AND "Seller_ID" = (SELECT "User_ID"  FROM "Users" WHERE "UserEmail" = ($2)) AND "Buyer_ID" = (SELECT "User_ID"  FROM "Users" WHERE "UserEmail" = ($3))', [itemName,sellerEmail, buyerEmail], (error, results) => {
     if (error) {
       throw error
@@ -240,9 +219,6 @@ const searchOrder = (request, response) => {
 // export the methods so we can access them in index.js
 // this is necessary to register them with a URL API endpoint
 module.exports = {
-    getUsers,
-    createUser,
-    updateUser,
     showMessages,
     createMessages,
     listItem,
@@ -259,6 +235,8 @@ module.exports = {
     getOffersFromItem,
     getOffersFromUserEmail,
     updateOffer,
-    cleanOffers
+    cleanOffers,
+    getImageFromItem,
+    getImageFromUserEmail
   }
 

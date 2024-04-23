@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const cors = require('cors')
 const db = require('./queries') // require queries.js which has our queries that run on the PostgreSQL server
+const auth = require('./auth')
 
 app.use(cors());
 // specify port for service
@@ -22,9 +23,10 @@ app.get('/', (request, response) => {
 })
 
 // register API methods for GetUsers and CreateUser
-app.get('/users/findUser', db.getUsers)    // http://localhost:3000/users/findUser calls queries.getUsers
-app.post('/users/createUser', db.createUser)    
-app.post('/users/updateUser', db.updateUser)
+app.get('/users/findUser', auth.getUsers)    // http://localhost:3000/users/findUser calls queries.getUsers
+app.post('/users/createUser', auth.createUser)    
+app.post('/users/updateUser', auth.updateUser)
+app.post('/users/verifyUser', auth.verifyUser)
 
 app.get('/messages/displayMessages', db.showMessages)
 app.post('/messages/storeMessage', db.createMessages)
@@ -41,6 +43,14 @@ app.post('/items/listItem',db.listItem)
 app.post('/items/updateListing',db.updateItem)
 app.post('/items/updateSoldFlag',db.updateSoldFlag)
 
+app.post('/offers/createOffer',db.createOffer)
+app.get('/offers/getOffersFromItem',db.getOffersFromItem)
+app.get('/offers/getOffersFromUserEmail',db.getOffersFromUserEmail)
+app.post('/offers/updateOffer',db.updateOffer)
+app.post('/offers/cleanOffers',db.cleanOffers)
+
+app.post('/offers/getImageFromUserEmail',db.getImageFromUserEmail)
+app.post('/offers/getImageFromItem',db.getImageFromItem)
 
 
 
