@@ -15,7 +15,7 @@ function Navbar(props) {
         <Link to="/">Home</Link>
         <Link to="/shop">Shop</Link>
         <Link to="/about">About</Link>
-        <Link to="/login">{loggedIn ? 'Log out' : 'Log in'}</Link>
+        <Link to={loggedIn ? '/account' : '/login'}>{loggedIn ? 'Account' : 'Log in'}</Link>
       </div>
     </div>
   );
