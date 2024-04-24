@@ -86,15 +86,3 @@ p {
 .shop button:hover {
   background-color: #658fce;
 }
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .card {
-    width: 80%; /* Makes the card width responsive */
-    height: auto; /* Adjusts height based on content */
-  }
-
-  .card img {
-    max-width: 100%; /* Image uses full width of the card */
-  }
-}
