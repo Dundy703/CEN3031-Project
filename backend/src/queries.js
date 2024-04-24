@@ -101,10 +101,21 @@ const allItems = (request, response) => {
       response.status(200).json(results.rows)
     })
 }
+
+const userItems = (request, response) => {
+  const userEmail = request.query.userEmail;
+  pool.query('SELECT * FROM "Items" WHERE "Seller_ID" = (SELECT "User_ID" FROM "Users" WHERE "UserEmail" = ($1))', [userEmail], (error, results) => {
+    if (error) {
+      throw error
+    }
+      response.status(200).json(results.rows)
+    })
+}
+
 //Shows all the items based on a specific search
-const likeItems = (request, reponse) => {
-  const {itemName} = request.query.itemName;
-  pool.query('SELECT * FROM "Items" WHERE "ItemName" LIKE \'%($1)%\'', [itemName], (error,results) => {
+const likeItems = (request, response) => {
+  const itemName = request.query.itemName;
+  pool.query('SELECT * FROM "Items" WHERE "ItemName" LIKE $1', [`%${itemName}%`], (error,results) => {
     if (error) {
       throw error
     }
@@ -258,5 +269,6 @@ module.exports = {
     getImageFromItem,
     getImageFromUserEmail,
     likeItems,
+    userItems
   }
 
