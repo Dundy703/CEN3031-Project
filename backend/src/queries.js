@@ -49,7 +49,8 @@ const getImageFromUserEmail = (request, response) => {
 
 const getImageFromItem = (request, response) => {
   const itemName = request.query.itemName;
-  pool.query('SELECT "ImageData" FROM "Image" WHERE "Image_ID" = (SELECT "ItemImageID" FROM "Items" WHERE "itemName" = ($1))', [itemName], (error, results) => {
+  console.log(itemName);
+  pool.query('SELECT "ImageData" FROM "Image" WHERE "Image_ID" = (SELECT "ItemImageID" FROM "Items" WHERE "ItemName" = ($1))', [itemName], (error, results) => {
     if (error) {
       throw error
     }
@@ -99,7 +100,8 @@ const allItems = (request, response) => {
     })
 }
 const likeItems = (request, response) => {
-  const {itemName} = request.query;
+  const itemName = request.query.itemName;
+  console.log(itemName);
   pool.query('SELECT * FROM "Items" WHERE "ItemName" LIKE $1', [`%${itemName}%`], (error,results) => {
     if (error) {
       throw error

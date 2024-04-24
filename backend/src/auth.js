@@ -115,7 +115,7 @@ const getUsers = (request, response) => {
 
   const getUserByID = (request, response) => {
     // execute the SELECT query, query results are put into results
-    const userEmail = request.query.userID;
+    const userID = request.query.userID;
     pool.query('SELECT * FROM "Users" WHERE "User_ID" = ($1)', [userID], (error, results) => {
       // if there's an error (query typo, server connection issue, etc), throw (will crash the service)
       if (error) {

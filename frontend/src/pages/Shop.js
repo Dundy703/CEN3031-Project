@@ -4,16 +4,53 @@ import axios from 'axios';
 import '../styles/Shop.css'
 
 function Shop() {
-  let search = '';
-  let items = [];
+  const [search, setSearch] = useState('');
+  const [results, setResults] = useState([]);
+  const [items, setItems] = useState([]);
+
   useEffect(() => {
-    search = prompt("What would you like to search for");  
-    axios.get(`http://localhost:3001/items/likeItems?banitemName=${encodeURIComponent(search)}`)
-    .then((response) => {
-      items = response;
-      console.log(response);
+    const searchInput = prompt("What would you like to search for"); 
+    if(searchInput) {
+      setSearch(searchInput);
+    }
+  }, []);
+
+  useEffect(() => { 
+    if(search){
+      axios.get(`http://localhost:3001/items/likeItems?itemName=${encodeURIComponent(search)}`)
+      .then((response) => {
+        setResults(response.data);
+        console.log(response.data);
+
+        
+      });
+    }
+  }, [search]);
+
+  useEffect(() => {
+    const promises = results.map(result => {
+      return Promise.all([
+        axios.get(`http://localhost:3001/image/getImageFromItem?itemName=${encodeURIComponent(result.ItemName)}`),
+        axios.get(`http://localhost:3001/users/findUserByID?UserID=${result.Seller_ID}`)
+      ]);
     });
-  });
+    console.log(promises);
+
+    Promise.all(promises)
+      .then(responses => {
+        console.log(responses);
+        const items = responses.map(([imageResponse, userResponse], index) => ({
+          id: index + 1,
+          name: results[index].ItemName,
+          seller: userResponse.data.UserUsername,
+          price: results[index].ItemPrice,
+          description: results[index].ItemDescription,
+          image: imageResponse.data[0].BikeImageData,
+        }));
+        console.log(items);
+        setItems(items);
+      });
+  }, [results])
 
 
 
