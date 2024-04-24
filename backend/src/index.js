@@ -25,6 +25,7 @@ app.get('/', (request, response) => {
 // register API methods for GetUsers and CreateUser
 app.get('/users/findUser', auth.getUsers)    // http://localhost:3000/users/findUser calls queries.getUsers
 app.get('/users/findUserByID', auth.getUserByID )
+app.get('/users/findUserByUsername', auth.getUserByUsername )
 app.post('/users/createUser', auth.createUser)    
 app.post('/users/updateUser', auth.updateUser)
 app.post('/users/verifyUser', auth.verifyUser)

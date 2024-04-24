@@ -128,6 +128,21 @@ const getUsers = (request, response) => {
     })
   }
 
+  const getUserByUsername = (request, response) => {
+    // execute the SELECT query, query results are put into results
+    const userUsername = request.query.userUsername;
+    pool.query('SELECT * FROM "Users" WHERE "UserUsername" = ($1)', [userUsername], (error, results) => {
+      // if there's an error (query typo, server connection issue, etc), throw (will crash the service)
+      if (error) {
+        throw error
+      }
+      // return the query results
+      // HTTP code 200 = "success" for GET methods
+      // results.rows gives the actual query data
+      response.status(200).json(results.rows)
+    })
+  }
+
   const checkToken = (request, response) => {
     const token = request.headers.authorization.split(' ')[1];
     jwt.verify(token, secretKey, (err, decoded) => {
@@ -144,5 +159,6 @@ const getUsers = (request, response) => {
     updateUser,
     verifyUser,
     checkToken,
-    getUserByID
+    getUserByID,
+    getUserByUsername
   }

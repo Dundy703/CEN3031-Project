@@ -8,10 +8,10 @@ import '../styles/Account.css';
 function Account(props) {
     let navigate = useNavigate();
     const [imgData, setImgData] = useState(Default);
-    const [itemImgData, setItemImgData] = useState()
+    const [searchValue, setSearchValue] = useState('');
     const [data, setData] = useState({});
     const [listings, setListings] = useState([]);
-    const {email} = props;
+    const [ownAccount, setOwnAccount] = useState(true);
 
     function logout() {
         localStorage.removeItem("token");
@@ -20,6 +20,9 @@ function Account(props) {
     }
 
     function loadAccount(email) {
+        setSearchValue('');
+        if(email == props.email) setOwnAccount(true);
+        else setOwnAccount(false);
         axios.get(`http://localhost:3001/users/findUser?userEmail=${email}`)
             .then((response) => {
                 setData(response.data[0]);
@@ -37,27 +40,55 @@ function Account(props) {
     function Listing(productData){
         return (
             <div className="listing">
-                <h3 className="name">{productData.ItemName}</h3>
-                <div className="price-button">
+                <div className="info">
+                    <h3 className="name">{productData.ItemName}</h3>
                     <p className="price">{productData.ItemPrice}</p>
-                    <button >Offer</button>
                 </div>
+                {!ownAccount && 
+                <form className="offer" onSubmit={submitOffer}>
+                    <input type="number" name={productData.ItemName} placeholder='Enter bid'></input>
+                    <button>Offer</button>
+                </form>
+                }
             </div>
         )
     }
 
+    function handleButton() {
+        if(ownAccount) logout();
+        else loadAccount(props.email);
+    }
+
     useEffect(() => {
-        const {email} = props;
-        if(email){
-            loadAccount(email);
+        if(props.email){
+            loadAccount(props.email);
         }
-    }, [email]);
+    }, [props.email]);
+
+    const submitOffer = (e) => {
+
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.get(`http://localhost:3001/users/findUserByUsername?userUsername=${searchValue}`)
+        .then((response) => {
+            if(response.data.length == 0) {
+
+            }else{
+                loadAccount(response.data[0].UserEmail);
+            }
+        })
+    }
 
     return (
-
         <div className="account">
+            <div className="header">
+                <div className="title">{false? 'Your Account' : `${data.UserUsername}'s Account`}</div>
+                <form onSubmit={handleSubmit}><input className="lookup" type="text" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder="Lookup user"/></form>
+            </div>
             <div className="profile-info">
-                <img className="image" alt="profile picture" src={imgData} />
+                <img className="image" alt="profile" src={imgData} />
                 <div className="info-text">
                     <h1>{data.UserUsername} </h1>
                     <h2>Name: {data.UserFirstName} {data.UserLastName} </h2>
@@ -65,11 +96,13 @@ function Account(props) {
                     <p>Address: {data.UserAddressLine1}, {data.UserAddressLine2}<br />{data.UserCity}, {data.UserState} {data.UserZipCode}</p>
                 </div>
                 <div className="listings">
+                    <h1>Listed Items</h1>
                     {listings.map(listing => (
                         Listing(listing)
                     ))}
                 </div>
             </div>
+            <button className="bottomButton" onClick={handleButton}>{ownAccount? "Log Out" : "Back to Your Account"}</button>
         </div>
     )
 }
