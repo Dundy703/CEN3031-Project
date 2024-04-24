@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios';
 import '../styles/Shop.css'
 
 function Shop() {
-  let search = prompt("What would you like to search for");
-  const items = [];
-  
+  let search = '';
+  let items = [];
+  useEffect(() => {
+    search = prompt("What would you like to search for");  
+    axios.get(`http://localhost:3001/items/likeItems?banitemName=${encodeURIComponent(search)}`)
+    .then((response) => {
+      items = response;
+      console.log(response);
+    });
+  });
+
+
 
   /*const items = [
     {

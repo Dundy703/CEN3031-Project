@@ -98,9 +98,9 @@ const allItems = (request, response) => {
       response.status(200).json(results.rows)
     })
 }
-const likeItems = (request, reponse) => {
-  const {itemName} = request.query.itemName;
-  pool.query('SELECT * FROM "Items" WHERE "ItemName" LIKE \'%($1)%\'', [itemName], (error,results) => {
+const likeItems = (request, response) => {
+  const {itemName} = request.query;
+  pool.query('SELECT * FROM "Items" WHERE "ItemName" LIKE $1', [`%${itemName}%`], (error,results) => {
     if (error) {
       throw error
     }
