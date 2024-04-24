@@ -10,7 +10,22 @@ function Signup(props) {
     let navigate = useNavigate();
     if(props.loggedIn) navigate('/');
     const [fileURL, setFileURL] = useState(Default);
+    const [page, setPage] = useState(1);
+    const [formData, setFormData] = useState({
+        imageData: '',
+        userEmail: '',
+        userUsername: '',
+        userPassword: '',
+        userFirstName: '',
+        userLastName: '',
+        userAddressLine1: '',
+        userAddressLine2: '',
+        userState: '',
+        userCity: '',
+        userZipCode: ''
+    });
 
+    //create image object URL that previews image when it is changed
     function handleImgChange(e) {
         setFileURL(URL.createObjectURL(e.target.files[0]));
         const file = e.target.files[0];
@@ -29,6 +44,7 @@ function Signup(props) {
         reader.readAsDataURL(file);
     }    
 
+    //log the user into their account when it is created
     function login(){
         axios.post(`http://localhost:3001/users/verifyUser`, formData)
             .then((response) => {
@@ -45,22 +61,7 @@ function Signup(props) {
             });
     }
 
-
-    const [page, setPage] = useState(1);
-    const [formData, setFormData] = useState({
-        imageData: '',
-        userEmail: '',
-        userUsername: '',
-        userPassword: '',
-        userFirstName: '',
-        userLastName: '',
-        userAddressLine1: '',
-        userAddressLine2: '',
-        userState: '',
-        userCity: '',
-        userZipCode: ''
-    });
-
+    //update values in formData when they are changed
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -69,10 +70,13 @@ function Signup(props) {
         }));
     };
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(page);
+        //if user clicked to go to next page from page 1, setpage to 2
         if(page === 1) setPage(2);
+        //if user is already on page 2, create the user and then call login()
         else{
             console.log(formData);
             axios.post("http://localhost:3001/users/createUser", formData)
@@ -88,6 +92,7 @@ function Signup(props) {
     
     return (
         <div>
+            {/* Page 1: email, username, password */}
             {page === 1 && (
                 <form onSubmit={handleSubmit} className="signup">      
                 <h1>Create an Account</h1>  
@@ -111,6 +116,7 @@ function Signup(props) {
                     <Link to="/login"><p>Already have an account? Sign in</p></Link>
                 </form>
             )}
+            {/* Page 2: name, address, profile image */}
             {page === 2 && (
                 <form onSubmit={handleSubmit} className="info">   
                     <h1>Additional Information</h1>

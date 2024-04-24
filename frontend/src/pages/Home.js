@@ -10,11 +10,13 @@ function Home(props) {
         <div className="home" style={{ backgroundImage: `url(${Image})`}}>
             <div className="infoBox">
                 <h1> MingleMart </h1>
-                {!loggedIn && <p> A groundbreaking E-commerce platform </p>}
-                {loggedIn && <p> Mingle with your items! </p>}
+                {/*Show different text depending on whether user is logged in*/}
+                <p> {loggedIn? "Mingle with your items!" : "A groundbreaking E-commerce platform"} </p>
+                {/*If user is not logged in, display a sign up button*/}
                 {!loggedIn && <Link to="/signup">
                     <button>Sign up</button>
                 </Link>}
+                {/*If user is logged in, display shop and list buttons*/}
                 {loggedIn && <Link to="/shop">
                     <button>Browse Items</button>
                 </Link>}

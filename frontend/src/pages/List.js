@@ -13,6 +13,8 @@ function List(props) {
         sellerEmail: props.email,
     });
 
+    /*ensure that sellerEmail is set to the correct value, 
+    in case the page is refreshed or props.email is not populated yet on first render*/
     useEffect(() => {
         setFormData(prevState => ({
             ...prevState,
@@ -22,6 +24,7 @@ function List(props) {
 
     const [fileURL, setFileURL] = useState();
 
+    //ensure itemPrice is a number, and then update elements in formData upon change
     const handleChange = (e) => {
         let { name, value } = e.target;
         if(name === "itemPrice") {
@@ -34,6 +37,7 @@ function List(props) {
         }));
     };
 
+    //create image object URL that previews image when it is changed
     function handleImgChange(e) {
         setFileURL(URL.createObjectURL(e.target.files[0]));
         const file = e.target.files[0];
@@ -52,6 +56,7 @@ function List(props) {
         reader.readAsDataURL(file);
     }    
 
+    //on submit, list the item and go back to the home page
     function handleSubmit(e) {
         e.preventDefault();
         console.log(formData);
@@ -78,7 +83,7 @@ function List(props) {
             </p>
             <p>
                 <label htmlFor="price">Price:</label>
-                <input type="number" name="itemPrice" value={formData.itemPrice} onChange={handleChange} />
+                <input type="text" name="itemPrice" value={formData.itemPrice} onChange={handleChange} />
             </p>
             <p>
                 <label htmlFor="image">Image:</label>

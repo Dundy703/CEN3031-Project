@@ -13,14 +13,14 @@ function Account(props) {
     const [listings, setListings] = useState([]);
     const [ownAccount, setOwnAccount] = useState(true);
 
-    //Logs out account
+    //log out the user and delete authorization token
     function logout() {
         localStorage.removeItem("token");
         navigate("/login");
         window.location.reload();
     }
 
-    //Loads an account's info, including image and listings
+    //loads an account's info, including image and listings
     function loadAccount(email) {
         setSearchValue('');
         if(email === props.email) setOwnAccount(true);
@@ -39,7 +39,7 @@ function Account(props) {
             })
     }
 
-    //Returns react component for a single listing
+    //returns react component for a single listing
     function Listing(productData){
         return (
             <div className="listing">
@@ -75,13 +75,12 @@ function Account(props) {
         console.log(name, value);
     }
 
+    //on search, check if an account exists, and if it does, call loadAccount
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.get(`http://localhost:3001/users/findUserByUsername?userUsername=${searchValue}`)
         .then((response) => {
-            if(response.data.length === 0) {
-
-            }else{
+            if(!(response.data.length === 0)) {
                 loadAccount(response.data[0].UserEmail);
             }
         })
@@ -125,6 +124,7 @@ function Account(props) {
                 {listings.map(listing => (
                     Listing(listing)
                 ))}
+                {listings.length === 0 && <p>None</p>}
             </div>
         </div>
     )

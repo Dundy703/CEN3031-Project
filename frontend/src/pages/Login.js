@@ -13,6 +13,7 @@ function Login(props) {
         userPassword: '',
     });
 
+    //when a value is updated, changes are immediately stored to the formData object
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -21,6 +22,7 @@ function Login(props) {
         }));
     };
 
+    //upon form submission, user is verified with the verifyUser endpoint
     const handleSubmit = (e) => {
         setError('');
         e.preventDefault();
@@ -36,6 +38,7 @@ function Login(props) {
                 };
             })
             .catch(error => {
+                //set error to the error message, which will be displayed in red
                 setError(error.response.data);
 
             });
