@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import '../styles/List.css'
@@ -12,6 +12,13 @@ function List(props) {
         imageData: '',
         sellerEmail: props.email,
     });
+
+    useEffect(() => {
+        setFormData(prevState => ({
+            ...prevState,
+            sellerEmail: props.email,
+        }));
+    }, [props.email]);
 
     const [fileURL, setFileURL] = useState();
 
