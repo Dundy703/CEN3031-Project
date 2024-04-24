@@ -14,7 +14,7 @@ function Likes() {
     };
 
     const submitBid = (index) => {
-        alert(`Bid of $${bids[index]} submitted for ${likedItems[index].name}`);
+        console.log(`Bid of $${bids[index]} submitted for ${likedItems[index].name}`);
     };
 
     return (
