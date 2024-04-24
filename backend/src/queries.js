@@ -49,7 +49,7 @@ const getImageFromUserEmail = (request, response) => {
 //Gets the image of a specific item 
 const getImageFromItem = (request, response) => {
   const itemName = request.query.itemName;
-  pool.query('SELECT "ImageData" FROM "Image" WHERE "Image_ID" = (SELECT "ItemImageID" FROM "Items" WHERE "itemName" = ($1))', [itemName], (error, results) => {
+  pool.query('SELECT "ImageData" FROM "Image" WHERE "Image_ID" = (SELECT "ItemImageID" FROM "Items" WHERE "ItemName" = ($1))', [itemName], (error, results) => {
     if (error) {
       throw error
     }
