@@ -20,26 +20,20 @@ function Shop() {
       axios.get(`http://localhost:3001/items/likeItems?itemName=${encodeURIComponent(search)}`)
       .then((response) => {
         setResults(response.data);
-        console.log(response.data);
-
-        
       });
     }
   }, [search]);
 
   useEffect(() => {
     const promises = results.map(result => {
-      console.log(result.Seller_ID);
       return Promise.all([
         axios.get(`http://localhost:3001/image/getImageFromItem?itemName=${encodeURIComponent(result.ItemName)}`),
         axios.get(`http://localhost:3001/users/findUserByID?userID=${result.Seller_ID}`)
       ]);
     });
-    console.log(promises);
 
     Promise.all(promises)
       .then(responses => {
-        console.log(responses);
         const items = responses.map(([imageResponse, userResponse], index) => ({
           id: index + 1,
           name: results[index].ItemName,
@@ -48,7 +42,6 @@ function Shop() {
           description: results[index].ItemDescription,
           image: imageResponse.data[0].ImageData,
         }));
-        console.log(items);
         setItems(items);
       });
   }, [results])
