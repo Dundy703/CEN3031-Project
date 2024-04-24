@@ -2,13 +2,14 @@ import React from 'react';
 import axios from 'axios'
 import {Link, useNavigate} from 'react-router-dom';
 import { useState } from 'react';
+import Default from '../assets/pfp.png'
 import '../styles/Signup.css';
 
 
 function Signup(props) {
     let navigate = useNavigate();
     if(props.loggedIn) navigate('/');
-    const [fileURL, setFileURL] = useState();
+    const [fileURL, setFileURL] = useState(Default);
 
     function handleImgChange(e) {
         setFileURL(URL.createObjectURL(e.target.files[0]));
@@ -155,11 +156,11 @@ function Signup(props) {
                             <label for="image">Image: </label>
                             <input type="file" name="image" accept="image/*" onChange={handleImgChange}></input>
                             <img className="image" alt="preview" src={fileURL} />
+                             <br />
+                            <button type="submit">Create your account</button>
                         </p>
                         </div>
                     </div>
-                    <br />
-                    <button type="submit">Create your account</button>
                 </form>
             )}
         </div>

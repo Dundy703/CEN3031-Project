@@ -83,16 +83,6 @@ function Account(props) {
 
     return (
         <div className="account">
-        <div className="account-info-card">
-            <img className="image" alt="Profile" src={imgData} />
-            <div className="info-text">
-            <h1>{data.UserUsername}</h1>
-            <h2>Name: {`${data.UserFirstName} ${data.UserLastName}`}</h2>
-            <h2>Email: {data.UserEmail}</h2>
-            <p>Address: {`${data.UserAddressLine1}, ${data.UserAddressLine2}`}<br />
-            {`${data.UserCity}, ${data.UserState} ${data.UserZipCode}`}</p>
-            </div>
-        </div>
         <div className="header">
             <div className="title">
                 {data.UserUsername ? `${data.UserUsername}'s Account` : 'Your Account'}
@@ -108,20 +98,14 @@ function Account(props) {
                 />
             </form>
         </div>
-        <div className="profile-info">
+        <div className="account-info-card">
             <img className="image" alt="Profile" src={imgData} />
             <div className="info-text">
-                <h1>{data.UserUsername}</h1>
-                <h2>Name: {`${data.UserFirstName} ${data.UserLastName}`}</h2>
-                <h2>Email: {data.UserEmail}</h2>
-                <p>Address: {`${data.UserAddressLine1}, ${data.UserAddressLine2}`}<br />
-                {`${data.UserCity}, ${data.UserState} ${data.UserZipCode}`}</p>
-            </div>
-            <div className="listings">
-                <h1>Listed Items</h1>
-                {listings.map(listing => (
-                    Listing(listing)
-                ))}
+            <h1>{data.UserUsername}</h1>
+            <h2>Name: {`${data.UserFirstName} ${data.UserLastName}`}</h2>
+            <h2>Email: {data.UserEmail}</h2>
+            <p>Address: {`${data.UserAddressLine1}, ${data.UserAddressLine2}`}<br />
+            {`${data.UserCity}, ${data.UserState} ${data.UserZipCode}`}</p>
             </div>
         </div>
         <button 
@@ -130,6 +114,12 @@ function Account(props) {
         >
             {ownAccount ? "Log Out" : "Back to Your Account"}
         </button>
+        <div className="listings">
+            <h1>Listed Items</h1>
+            {listings.map(listing => (
+                Listing(listing)
+            ))}
+        </div>
     </div>
     )
 }

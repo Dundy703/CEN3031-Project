@@ -62,12 +62,14 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
 .info h1 {
     font-size: 60px;
     color: #162738;
+    margin-left: 20px;
 }
 
 .info label {
@@ -76,8 +78,19 @@
     margin: 0; /* Reset margin */
 }
 
+.info p{
+    display: inline-block;
+    line-height: 40px;
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 24px;
+    width: auto;
+}
+
 .info input {
-    
+    width: 250px;
+    height: 40px;
+    font-size: 24px;
 }
 
 .info {
@@ -92,5 +105,6 @@
     display: block;
     width: 300px;
     height: 300px;
+    margin-top: 20px;
     object-fit: cover;
 }
