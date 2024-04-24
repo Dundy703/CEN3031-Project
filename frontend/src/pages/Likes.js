@@ -1,67 +1,10 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import '../styles/Likes.css';
 
 function Likes() {
-    const likedItems = [
-        {
-            id: 1,
-            name: "Liked Item 1",
-            seller: "Seller A",
-            price: "$15",
-            description: "Description for Liked Item 1",
-            image: "https://via.placeholder.com/300x300"
-        },
-        {
-            id: 2,
-            name: "Liked Item 2",
-            seller: "Seller B",
-            price: "$25",
-            description: "Description for Liked Item 2",
-            image: "https://via.placeholder.com/300x300"
-        },
-        {
-            id: 3,
-            name: "Liked Item 3",
-            seller: "Seller B",
-            price: "$25",
-            description: "Description for Liked Item 2",
-            image: "https://via.placeholder.com/300x300"
-        },
-        {
-            id: 4,
-            name: "Liked Item 4",
-            seller: "Seller B",
-            price: "$25",
-            description: "Description for Liked Item 2",
-            image: "https://via.placeholder.com/300x300"
-        },
-        {
-            id: 5,
-            name: "Liked Item 5",
-            seller: "Seller B",
-            price: "$25",
-            description: "Description for Liked Item 2",
-            image: "https://via.placeholder.com/300x300"
-        },
-        {
-            id: 6,
-            name: "Liked Item 6",
-            seller: "Seller B",
-            price: "$25",
-            description: "Description for Liked Item 2",
-            image: "https://via.placeholder.com/300x300"
-        },
-        {
-            id: 7,
-            name: "Liked Item 7",
-            seller: "Seller B",
-            price: "$25",
-            description: "Description for Liked Item 2",
-            image: "https://via.placeholder.com/300x300"
-        },
-        // Add more items as needed
-    ];
-
+    const location = useLocation();
+    const likedItems = location.state?.likedItems ?? [];
     const [bids, setBids] = useState(Array(likedItems.length).fill(''));
 
     const handleBidChange = (index, value) => {

@@ -33,40 +33,71 @@ function Shop() {
   }, [search]);
 
   useEffect(() => {
-    const promises = results.map(result => {
-      return Promise.all([
-        axios.get(`http://localhost:3001/image/getImageFromItem?itemName=${encodeURIComponent(result.ItemName)}`),
-        axios.get(`http://localhost:3001/users/findUserByID?userID=${result.Seller_ID}`)
-      ]);
-    });
+    if (results.length > 0) {
+      const promises = results.map(result => {
+        return Promise.all([
+          axios.get(`http://localhost:3001/image/getImageFromItem?itemName=${encodeURIComponent(result.ItemName)}`),
+          axios.get(`http://localhost:3001/users/findUserByID?userID=${result.Seller_ID}`)
+        ]);
+      });
 
-    Promise.all(promises)
+      Promise.all(promises)
       .then(responses => {
-        const items = responses.map(([imageResponse, userResponse], index) => ({
+        const newItems = responses.map(([imageResponse, userResponse], index) => ({
           id: index + 1,
           name: results[index].ItemName,
           seller: userResponse.data[0].UserUsername,
           price: results[index].ItemPrice,
           description: results[index].ItemDescription,
           image: imageResponse.data[0].ImageData,
+          isEndCard: false, // Default to false for normal items
         }));
-        setItems(items);
-      });
-  }, [results])
 
+        // Append the end card to the array
+        const endCard = {
+          id: 'endCard',
+          name: 'No Results',
+          seller: '',
+          price: '',
+          description: 'No more items that match or make a new search',
+          image: '', // You could add a default or placeholder image if desired
+          isEndCard: true, // Custom property to identify this special card
+        };
+        setItems([...newItems, endCard]);
+      });
+  } else {
+    // If there are no results, just show the end card
+    const endCardOnly = [{
+      id: 'endCard',
+      name: 'No Results',
+      seller: '',
+      price: '',
+      description: 'No more items that match or make a new search',
+      image: '', // You could add a default or placeholder image if desired
+      isEndCard: true,
+    }];
+    setItems(endCardOnly);
+  }
+}, [results]);
+/*
   useEffect(() => {
-    if(items.length > 0 && currentIndex < items.length && ref){
+    if (items.length > 0 && currentIndex < items.length && ref.current) {
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [items])
+  }, [currentIndex, items.length]);*/
 
 
-    const swipe = (direction) => {
-      setSwipeDirection(direction);
-      if (currentIndex < items.length - 1) {
+  const swipe = (direction) => {
+    if (currentIndex < items.length) {
+      if (!items[currentIndex].isEndCard) {
+        setSwipeDirection(direction); // Make sure this is set correctly here
+        if (direction === "right") {
+          setLikedItems(prevLikedItems => [...prevLikedItems, items[currentIndex]]);
+        }
         setCurrentIndex(currentIndex + 1);
       }
-    };
+    }
+  };
   
     const onDragEnd = (event, info) => {
       if (info.offset.x > swipeThresholdright) {
@@ -77,7 +108,7 @@ function Shop() {
     };
 
     const goToLikesPage = () => {
-        navigate('/likes');
+      navigate('/likes', { state: { likedItems } });
     };
 
     const variants = {
@@ -100,18 +131,18 @@ function Shop() {
 
     return (
       <div className="shop">
-    <div className="shop-header">
-      <h1>Welcome to the Shop</h1>
-      <p>Swipe right to like an item or left to dislike it. Check your liked items by clicking the button below each card.</p>
-      <form onSubmit={doSearch}>
-        <input
-          type="text"
-          placeholder="Search items..."
-          className="search-bar"
-        />
-      </form>
-    </div>
-        
+        <div className="shop-header">
+          <h1>Welcome to the Shop</h1>
+          <p>Swipe right to like an item or left to dislike it. Check your liked items by clicking the button below each card.</p>
+          <form onSubmit={doSearch}>
+            <input
+              type="text"
+              placeholder="Search items..."
+              className="search-bar"
+            />
+          </form>
+        </div>
+    
         <AnimatePresence custom={swipeDirection}>
           {items.length > 0 && currentIndex < items.length && (
             <motion.div
@@ -124,22 +155,25 @@ function Shop() {
               dragConstraints={{ left: 0, right: 0 }}
               onDragEnd={onDragEnd}
               className="card"
-              ref={ref}
+              ref={currentIndex === items.length - 1 ? null : ref}  // Don't attach ref if it's the last card
             >
-            <div className='img-box'>
-              <img
-                src={items[currentIndex].image}
-                alt={items[currentIndex].name}
-              />
-            </div>
-              <h2>{items[currentIndex].name}</h2>
-              <p>Seller: {items[currentIndex].seller}</p>
-              <p>Price: {items[currentIndex].price}</p>
-              <p>{items[currentIndex].description}</p>
-              <div className="buttons">
-                <button onClick={() => swipe("left")}>Dislike</button>
-                <button onClick={() => swipe("right")}>Like</button>
+              <div className='img-box'>
+                {items[currentIndex].image && <img src={items[currentIndex].image} alt={items[currentIndex].name} />}
               </div>
+              <h2>{items[currentIndex].name}</h2>
+              {items[currentIndex].isEndCard ? (
+                <p>{items[currentIndex].description}</p>  // Simple message for the end card
+              ) : (
+                <>
+                  <p>Seller: {items[currentIndex].seller}</p>
+                  <p>Price: {items[currentIndex].price}</p>
+                  <p>{items[currentIndex].description}</p>
+                  <div className="buttons">
+                    <button onClick={() => swipe("left")}>Dislike</button>
+                    <button onClick={() => swipe("right")}>Like</button>
+                  </div>
+                </>
+              )}
               <div className="view-likes">
                 <button onClick={goToLikesPage} style={{ marginTop: '20px', fontSize: '16px' }}>
                   View Liked Items
@@ -150,6 +184,7 @@ function Shop() {
         </AnimatePresence>
       </div>
     );
+    
 }
 
 export default Shop;
