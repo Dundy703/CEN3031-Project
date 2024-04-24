@@ -16,7 +16,7 @@ const pool = new Pool({
 })
 
 
-
+//Gets a specific item from the offers table
 const getOffersFromItem = (request, response) => {
   const itemName = request.query.itemName;
   pool.query('SELECT * FROM "Items" WHERE "Item_ID" = ($1)', [itemName], (error, results) => {
@@ -26,7 +26,7 @@ const getOffersFromItem = (request, response) => {
     response.status(200).json(results.rows)
   })
 }
-
+//Gets all the offers that come from a certain accountt
 const getOffersFromUserEmail = (request, response) => {
   const userEmail = request.query.userEmail;
   pool.query('SELECT * FROM "Users" WHERE "UserEmail" = ($1)', [userEmail], (error, results) => {
@@ -36,7 +36,7 @@ const getOffersFromUserEmail = (request, response) => {
     response.status(200).json(results.rows)
   })
 }
-
+//Gets the profile picture from a specific account
 const getImageFromUserEmail = (request, response) => {
   const userEmail = request.query.userEmail;
   pool.query('SELECT "ImageData" FROM "Image" WHERE "Image_ID" = (SELECT "UserProfilePictureID" FROM "Users" WHERE "UserEmail" = ($1))', [userEmail], (error, results) => {
@@ -46,17 +46,17 @@ const getImageFromUserEmail = (request, response) => {
     response.status(200).json(results.rows)
   })
 }
-
+//Gets the image of a specific item 
 const getImageFromItem = (request, response) => {
   const itemName = request.query.itemName;
-  pool.query('SELECT "ImageData" FROM "Image" WHERE "Image_ID" = (SELECT "ItemImageID" FROM "Items" WHERE "ItemName" = ($1))', [itemName], (error, results) => {
+  pool.query('SELECT "ImageData" FROM "Image" WHERE "Image_ID" = (SELECT "ItemImageID" FROM "Items" WHERE "itemName" = ($1))', [itemName], (error, results) => {
     if (error) {
       throw error
     }
     response.status(200).json(results.rows)
   })
 }
-
+//Show all the messages between two users 
 const showMessages = (request, response) => {
     const senderEmail = request.query.senderEmail;
     const receiverEmail = request.query.receiverEmail;
@@ -67,6 +67,7 @@ const showMessages = (request, response) => {
         response.status(200).json(results.rows)
       })
   }
+//Stores the messages between two users 
 const createMessages = (request, response) => {
   const {senderEmail, receiverEmail, messageContent} = request.body;
   pool.query('INSERT INTO "Messages" ("Receiver_ID", "Sender_ID", "MessageContent") VALUES ((SELECT "User_ID" FROM "Users" WHERE "UserEmail" = ($2)),(SELECT "User_ID" FROM "Users" WHERE "UserEmail" = ($1)),$3)', [senderEmail, receiverEmail, messageContent], (error,results) => {
@@ -76,8 +77,9 @@ const createMessages = (request, response) => {
       response.status(200).json(results.rows)
     })
   }
+//Create a listing of an item and stores the item's image and information
 const listItem = (request, response) => {
-  const {itemName, itemDescription, itemPrice, imageData,sellerEmail} = request.body;
+  const {itemName, itemDescription, itemPrice, imageData, sellerEmail} = request.body;
   pool.query('INSERT INTO "Image" ("ImageData", "ItemName") VALUES ($1,$2)',[imageData, itemName], (error, results) => {
     if (error) {
       throw error
@@ -90,6 +92,7 @@ const listItem = (request, response) => {
     })
   })
   }
+//Shows all items that have been listed 
 const allItems = (request, response) => {
   pool.query('SELECT * FROM "Items"', (error, results) => {
     if (error) {
@@ -98,28 +101,17 @@ const allItems = (request, response) => {
       response.status(200).json(results.rows)
     })
 }
-
-const userItems = (request, response) => {
-  const userEmail = request.query.userEmail;
-  pool.query('SELECT * FROM "Items" WHERE "Seller_ID" = (SELECT "User_ID" FROM "Users" WHERE "UserEmail" = ($1))', [userEmail], (error, results) => {
+//Shows all the items based on a specific search
+const likeItems = (request, reponse) => {
+  const {itemName} = request.query.itemName;
+  pool.query('SELECT * FROM "Items" WHERE "ItemName" LIKE \'%($1)%\'', [itemName], (error,results) => {
     if (error) {
       throw error
     }
       response.status(200).json(results.rows)
     })
 }
-
-const likeItems = (request, response) => {
-  const itemName = request.query.itemName;
-  pool.query('SELECT * FROM "Items" WHERE "ItemName" LIKE $1', [`%${itemName}%`], (error,results) => {
-    if (error) {
-      throw error
-    }
-      response.status(200).json(results.rows)
-    })
-}
-
-//How to get both the image info and item info in one query
+//Shows all items based on what categories the user would like to see
 const categoryListing = (request, response) => {
   // execute the SELECT query, query results are put into results
   const itemCategory = request.query.itemCategory;
@@ -134,8 +126,8 @@ const categoryListing = (request, response) => {
     response.status(200).json(results.rows)
   })
   }
+//Displays a specific item 
 const specificListing = (request, response) => {
-  // execute the SELECT query, query results are put into results
   const itemName = request.query.itemName;
   pool.query('SELECT * FROM "Items" WHERE "ItemName" = ($1)', [itemName], (error, results) => {
     if (error) {
@@ -144,8 +136,8 @@ const specificListing = (request, response) => {
     response.status(200).json(results.rows)
   })
   }  
+//Shows all items based on what item tags the user would like to see
 const tagListing = (request, response) => {
-  // execute the SELECT query, query results are put into results
   const itemTag = request.query.itemTag;
   pool.query('SELECT * FROM "Items" WHERE "ItemTags" = ($1)', [itemTag], (error, results) => {
     if (error) {
@@ -154,8 +146,8 @@ const tagListing = (request, response) => {
     response.status(200).json(results.rows)
   })
   }  
+//Shows all the items that have been sold
 const soldListing = (request, response) => {
-  // execute the SELECT query, query results are put into results
   const soldFlag = request.query.soldFlag;
   pool.query('SELECT * FROM "Items" WHERE "ItemSoldFlag" = ($1)', [soldFlag], (error, results) => {
     if (error) {
@@ -164,6 +156,7 @@ const soldListing = (request, response) => {
     response.status(200).json(results.rows)
   })
   }
+//Updates the information of an item
 const updateItem = (request, response) => {
   const {itemName, itemDescription, itemCategory,imageData,itemTags} = request.body;
   pool.query('UPDATE "Image"  SET "ImageData" = ($1) WHERE "ItemName" = ($2)',[imageData, itemName], (error, results) => {
@@ -178,6 +171,7 @@ const updateItem = (request, response) => {
     })
   })
   }
+//Updates whether an item has been sold or not
 const updateSoldFlag = (request, response) => {
   const {itemName} = request.body;
   pool.query('UPDATE "Items" SET "ItemSoldFlag" = 1 WHERE "ItemName" = ($1)', [itemName], (error, results) => {
@@ -187,6 +181,7 @@ const updateSoldFlag = (request, response) => {
     response.status(200).json(results.rows)
   })
   }
+//Inserts any offer created by a buyer 
 const createOffer = (request, response) => {
   const {itemName, sellerEmail, buyerEmail, offerPrice, dateSent} = request.body;
   pool.query('INSERT INTO "Offers" ("Item_ID", "Seller_ID", "Buyer_ID", "OfferPrice", "OfferSentDate", ApprovedFlag) VALUES ((SELECT "Item_ID" FROM "Items" WHERE "ItemName" = ($1)) , (SELECT "User_ID"  FROM "Users" WHERE "UserEmail" = ($2)), (SELECT "User_ID"  FROM "Users" WHERE "UserEmail" = ($3)), $4, $5, (FALSE))', [itemName, sellerEmail, buyerEmail, offerPrice, dateSent], (error, results) => {
@@ -196,6 +191,7 @@ const createOffer = (request, response) => {
       response.status(200).json(results.rows)
     })
 }
+//Updates an offer made by a buyer
 const updateOffer = (request, response) => {
   const {sellerEmail, buyerEmail} = request.body;
   pool.query('UPDATE "Offers" SET "ApprovedFlag" = TRUE WHERE "Seller_ID" = (SELECT "User_ID" FROM "Users" WHERE "UserEmail" = $1) AND "Buyer_ID" = (SELECT "User_ID" FROM "Users" WHERE "UserEmail" = $2)', [sellerEmail, buyerEmail], (error, results) => {
@@ -206,6 +202,7 @@ const updateOffer = (request, response) => {
     }
   )
 }
+//Deletes all offers on an item once it has been sold 
 const cleanOffers = (request, response) => {
   const {itemName} = request.body;
   pool.query('DELETE FROM "Offers" WHERE "ApprovedFlag" = FALSE AND WHERE "Item_ID" = (SELECT "Item_ID" FROM "Items" WHERE "ItemName" = $1)', [itemName], (error, results) => {
@@ -216,6 +213,7 @@ const cleanOffers = (request, response) => {
     }
   )
 }
+//Once a item has been sold, create an order with its order details 
 const createOrder = (request, response) => {
   const {itemName, sellerEmail, buyerEmail,salePrice} = request.body;
   pool.query('INSERT INTO "Orders" ("Item_ID", "Seller_ID","Buyer_ID","SalePrice") VALUES ((SELECT "Item_ID" FROM "Items" WHERE "ItemName" = ($1)),(SELECT "User_ID"  FROM "Users" WHERE "UserEmail" = ($2)),(SELECT "User_ID"  FROM "Users" WHERE "UserEmail" = ($3)),$4)', [itemName, sellerEmail, buyerEmail,salePrice], (error,results) => {
@@ -225,8 +223,8 @@ const createOrder = (request, response) => {
     response.status(200).json(results.rows)
   })
   }
+//Search for a specific order 
 const searchOrder = (request, response) => {
-  // execute the SELECT query, query results are put into results
   const itemName = request.query.itemName;
   const sellerEmail = request.query.sellerEmail;
   const buyerEmail = request.query.buyerEmail;
@@ -260,6 +258,5 @@ module.exports = {
     getImageFromItem,
     getImageFromUserEmail,
     likeItems,
-    userItems,
   }
 
