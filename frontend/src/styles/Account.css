@@ -1,122 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+    background: #f4f4f4;
+    color: #333;
+}
+
+.account {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .header {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    height: 10vh;
-    width:100%;
-    margin-top: 3vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
 }
 
 .title {
-    float:left;
-    font-size: 7vh;
-    font-weight:bold;
-    margin-left: 2%;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-left: 1rem;
 }
 
 .lookup {
-    display:inline;
-    font-size: 5vh;
-    width: 40vw;
-    height: 7vh;
-    margin-right: 3vw;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 1rem;
+}
+
+.account-info-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    width: 100%; 
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .profile-info {
     display: flex;
-    align-items: flex-start;
-    justify-content:space-between;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
-.profile-info img {
-    width: 20vw;
-    height: 20vw;
-    margin: 2vw 5vw 1vw 3vw;
-    object-fit: cover;
+.image {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-}
-
-.info-text h1 {
-    font-size: 72px;
-    margin-top: 50px;
-    margin-bottom: 25px;
-}
-
-.info-text p {
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 2;
-    margin: 10px 0;
+    object-fit: cover;
+    justify-self: center;
 }
 
 .info-text {
-    width: 33%;
-    display:flex;
-    flex-direction:column;
+    padding: 0 2rem;
+}
+
+.info-text h1,
+.info-text h2,
+.info-text p {
+    margin: 0.5rem 0;
 }
 
 .listings {
-    width: 33%;
-    padding: 1%;
-    height: 65vh;
-    margin-right: 3vw;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column; 
+    flex: 1; /* Let the listings take available horizontal space */
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    max-height: 500px; /* Set a maximum height for the listings container */
+    overflow-y: auto; /* Enable scrolling */
+    width: 300%; /* Adjust the width as necessary */
 }
 
-.listing {
-    display:flex;
-    flex-direction:column;
-    align-items: top;
-    border: 1px solid black;
-    padding: 0 10px;
+/* Add additional styling to the individual listing items for padding and borders */
+.listing-item {
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem 0;
 }
 
-.info {
-    display:flex;
-    align-items:center;
+/* Last child should not have a border at the bottom */
+.listing-item:last-child {
+    border-bottom: none;
 }
 
-.info h3 {
-    display:inline;
-}
-
-.info p {
-    display:inline;
-    margin-left:auto;
-}
-
-.offer {
-    display: flex;
-    align-items:center;
-    margin-bottom:1%
-}
-
-.offer button {
-    margin-left: auto;
+.listings h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .bottomButton {
-    position:absolute;
-    bottom: 12vh;
-    left: 15vw;
-    width: 20vw;
-    height: 10vh;
+    padding: 1rem 2rem;
+    background-color: #9ad6ff;
+    border: none;
+    border-radius: 5px;
     color: #162738;
     cursor: pointer;
-    background-color: #d4f2fc;
-    border-radius: 5px;
-    padding: 20px 40px; /* Padding instead of height/width for better flexibility */
-    font-size: 1.5rem; /* Make font size responsive */
-    text-decoration: none;
-    display: inline-block; /* Make button inline for centering */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for buttons */
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    align-self: stretch;
+    margin: 1rem;
 }
 
-
 .bottomButton:hover {
-    background-color: #bde4fb; /* Lighter shade on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover for a lifting effect */
+    background-color: #658fce;
 }

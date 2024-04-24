@@ -1,19 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+/* General styling for the list form */
 .list {
-    margin-left: 2%;
+    font-family: "Roboto", sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Make the form width responsive */
+    max-width: 70%; /* Increased maximum width to use more space */
+    margin: 40px 15%; /* Adjusted margins for auto centering with new max-width */
+    display: flex;
+    flex-direction: column;
 }
 
-.list textarea {
-    font-family: Arial, sans-serif;
-    height: 100px;
-    width: 300px;
+.list h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
 }
+
+.list label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+    display: block; /* Change to block for better control */
+}
+
+.list input[type="text"],
+.list input[type="number"], /* Assuming there is a number input for price */
+.list textarea,
+.list input[type="file"] {
+    width: 100%; /* Full width */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* Include padding in the width */
+}
+
+.list button {
+    padding: 10px 20px;
+    width: 100%; /* Full width */
+    border: none;
+    background-color: #9ad6ff;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    text-align: center; /* Center the text */
+    display: block; /* Allow the button to occupy its own line */
+    box-sizing: border-box; /* Include padding in the width */
+}
+
+.list button:hover {
+    background-color: #658fce;
+}
+
 .list img {
-    display: none;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-.list img[src] {
-    display: block;
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
+/* Remove spacing elements and handle through CSS */
+.list p {
+    margin: 0;
 }

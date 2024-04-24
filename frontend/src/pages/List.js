@@ -66,33 +66,28 @@ function List(props) {
  
     return (
         <div className="list">
-            <form onSubmit={handleSubmit}>
-                <h1>List an Item</h1>
-                <p>
-                    <label for="name">Item Name: </label>
-                    <input name="itemName" value={formData.itemName} onChange={handleChange} />
-                </p>
-                <br />
-                <p>
-                    <label for="description">Description: </label>
-                    <textarea name="itemDescription" type="textarea" value={formData.itemDescription} onChange={handleChange} />
-                </p>
-                <br />
-                <p>
-                    <label for="price">Price: </label>
-                    <input name="itemPrice" value={formData.itemPrice} onChange={handleChange} />
-                </p>
-                <br />
-                <p>
-                    <label for="image">Image: </label>
-                    <input type="file" name="image" accept="image/*" onChange={handleImgChange}></input>
-                    <br />
-                    <img className="image" alt="preview" src={fileURL} />
-                </p>
-                    <button type="submit">List Item</button>
-                <br />
-            </form>
-        </div>
+        <form onSubmit={handleSubmit}>
+            <h1>List an Item</h1>
+            <p>
+                <label htmlFor="name">Item Name:</label>
+                <input type="text" name="itemName" value={formData.itemName} onChange={handleChange} />
+            </p>
+            <p>
+                <label htmlFor="description">Description:</label>
+                <textarea name="itemDescription" value={formData.itemDescription} onChange={handleChange} />
+            </p>
+            <p>
+                <label htmlFor="price">Price:</label>
+                <input type="number" name="itemPrice" value={formData.itemPrice} onChange={handleChange} />
+            </p>
+            <p>
+                <label htmlFor="image">Image:</label>
+                <input type="file" name="image" accept="image/*" onChange={handleImgChange} />
+                {fileURL && <img className="image" alt="preview" src={fileURL} />}
+            </p>
+            <button type="submit">List Item</button>
+        </form>
+    </div>
     )
 }
 
