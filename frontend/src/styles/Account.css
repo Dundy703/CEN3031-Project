@@ -1,0 +1,30 @@
+.profile-info {
+    display: flex;
+    align-items: flex-start;
+}
+
+.profile-info img {
+    width: 400px;
+    height: 400px;
+    margin: 20px 100px 10px 20px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-info h1 {
+    font-size: 72px;
+    margin-top: 50px;
+    margin-bottom: 25px;
+}
+
+.profile-info p {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 2;
+    margin: 10px 0;
+}
+
+.info-text {
+    display:flex;
+    flex-direction:column;
+}

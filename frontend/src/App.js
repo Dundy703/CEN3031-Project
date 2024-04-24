@@ -45,7 +45,7 @@ function App() {
           <Route path="/login" exact element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} loggedIn={loggedIn} />} />
           <Route path="/shop" exact element={<Shop />} />
           <Route path="/list" exact element={<List email={email} />} />
-          <Route path="/account" exact element={<Account email={email} />} />
+          <Route path="/account" exact element={<Account email={email} loggedIn={loggedIn} />} />
         </Routes>
       </Router>
     </div>
