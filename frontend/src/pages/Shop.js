@@ -29,9 +29,10 @@ function Shop() {
 
   useEffect(() => {
     const promises = results.map(result => {
+      console.log(result.Seller_ID);
       return Promise.all([
         axios.get(`http://localhost:3001/image/getImageFromItem?itemName=${encodeURIComponent(result.ItemName)}`),
-        axios.get(`http://localhost:3001/users/findUserByID?UserID=${result.Seller_ID}`)
+        axios.get(`http://localhost:3001/users/findUserByID?userID=${result.Seller_ID}`)
       ]);
     });
     console.log(promises);
@@ -42,61 +43,15 @@ function Shop() {
         const items = responses.map(([imageResponse, userResponse], index) => ({
           id: index + 1,
           name: results[index].ItemName,
-          seller: userResponse.data.UserUsername,
+          seller: userResponse.data[0].UserUsername,
           price: results[index].ItemPrice,
           description: results[index].ItemDescription,
-          image: imageResponse.data[0].BikeImageData,
+          image: imageResponse.data[0].ImageData,
         }));
         console.log(items);
         setItems(items);
       });
   }, [results])
-
-
-
-  /*const items = [
-    {
-      id: 1,
-      name: "Item 1",
-      seller: "Seller A",
-      price: "$10",
-      description: "Description for Item 1",
-      image: "https://via.placeholder.com/800x600",
-    },
-    {
-      id: 2,
-      name: "Item 2",
-      seller: "Seller B",
-      price: "$20",
-      description: "Description for Item 2",
-      image: "https://via.placeholder.com/800x600",
-    },
-    {
-      id: 3,
-      name: "Item 3",
-      seller: "Seller B",
-      price: "$20",
-      description: "Description for Item 3",
-      image: "https://via.placeholder.com/800x600",
-    },
-    {
-      id: 4,
-      name: "Item 4",
-      seller: "Seller B",
-      price: "$20",
-      description: "Description for Item 4",
-      image: "https://via.placeholder.com/800x600",
-    },
-    {
-      id: 5,
-      name: "Item 5",
-      seller: "Seller B",
-      price: "$20",
-      description: "Description for Item 5",
-      image: "https://via.placeholder.com/800x600",
-    },
-    // More items...
-  ];*/
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [swipeDirection, setSwipeDirection] = useState("");
