@@ -21,7 +21,6 @@ function Shop() {
     const {value} = e.target[0];
     console.log(e);
     setSearch(value);
-    setCurrentIndex(0);
   }
 
   useEffect(() => { 
@@ -61,10 +60,11 @@ function Shop() {
           seller: '',
           price: '',
           description: 'No more items that match or make a new search',
-          image: '', // You could add a default or placeholder image if desired
-          isEndCard: true, // Custom property to identify this special card
+          image: '',
+          isEndCard: true,
         };
         setItems([...newItems, endCard]);
+        setCurrentIndex(0);
       });
   } else {
     // If there are no results, just show the end card
@@ -74,7 +74,7 @@ function Shop() {
       seller: '',
       price: '',
       description: 'No more items that match or make a new search',
-      image: '', // You could add a default or placeholder image if desired
+      image: '',
       isEndCard: true,
     }];
     setItems(endCardOnly);
@@ -91,7 +91,7 @@ function Shop() {
   const swipe = (direction) => {
     if (currentIndex < items.length) {
       if (!items[currentIndex].isEndCard) {
-        setSwipeDirection(direction); // Make sure this is set correctly here
+        setSwipeDirection(direction);
         if (direction === "right") {
           setLikedItems(prevLikedItems => [...prevLikedItems, items[currentIndex]]);
         }

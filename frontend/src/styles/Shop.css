@@ -59,7 +59,8 @@ body {
 
 .card img {
   max-width: 75%;
-  max-height: 40vh;
+  max-height: 45vh;
+  min-height: 32vh;
   border-radius: 8px;
   -webkit-user-drag: none;
   user-select: none;

@@ -21,7 +21,7 @@ function Account(props) {
 
     function loadAccount(email) {
         setSearchValue('');
-        if(email == props.email) setOwnAccount(true);
+        if(email === props.email) setOwnAccount(true);
         else setOwnAccount(false);
         axios.get(`http://localhost:3001/users/findUser?userEmail=${email}`)
             .then((response) => {
@@ -63,6 +63,7 @@ function Account(props) {
         if(props.email){
             loadAccount(props.email);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.email]);
 
     const submitOffer = (e) => {
@@ -73,7 +74,7 @@ function Account(props) {
         e.preventDefault();
         axios.get(`http://localhost:3001/users/findUserByUsername?userUsername=${searchValue}`)
         .then((response) => {
-            if(response.data.length == 0) {
+            if(response.data.length === 0) {
 
             }else{
                 loadAccount(response.data[0].UserEmail);
