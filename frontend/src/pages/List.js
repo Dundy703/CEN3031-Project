@@ -87,7 +87,7 @@ function List(props) {
                     <label for="image">Image: </label>
                     <input type="file" name="image" accept="image/*" onChange={handleImgChange}></input>
                     <br />
-                    <img className="image" src={fileURL} />
+                    <img className="image" alt="preview" src={fileURL} />
                 </p>
                     <button type="submit">List Item</button>
                 <br />

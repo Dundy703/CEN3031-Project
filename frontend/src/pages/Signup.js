@@ -31,7 +31,7 @@ function Signup(props) {
         axios.post(`http://localhost:3001/users/verifyUser`, formData)
             .then((response) => {
                 console.log(response.data);
-                if(response.data.message == "Successful Login"){
+                if(response.data.message === "Successful Login"){
                     localStorage.setItem('token', response.data.token);
                     props.setLoggedIn(true);
                     props.setEmail(formData.userEmail);
@@ -70,7 +70,7 @@ function Signup(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(page);
-        if(page == 1) setPage(2);
+        if(page === 1) setPage(2);
         else{
             console.log(formData);
             axios.post("http://localhost:3001/users/createUser", formData)
@@ -153,7 +153,7 @@ function Signup(props) {
                         <p>
                             <label for="image">Image: </label>
                             <input type="file" name="image" accept="image/*" onChange={handleImgChange}></input>
-                            <img className="image" src={fileURL} />
+                            <img className="image" alt="preview" src={fileURL} />
                         </p>
                         </div>
                     </div>
