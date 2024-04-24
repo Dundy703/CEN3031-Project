@@ -27,7 +27,7 @@ function App() {
       }
     })
     .then((response) => {
-      setLoggedIn("Success" == response.data.message);
+      setLoggedIn("Success" === response.data.message);
       setEmail(response.data.email.userEmail);
     })
     .catch(error => {

@@ -24,7 +24,7 @@ function List(props) {
 
     const handleChange = (e) => {
         let { name, value } = e.target;
-        if(name == "itemPrice") {
+        if(name === "itemPrice") {
             value = parseInt(value);
             if(isNaN(value)) value = '';
         }
@@ -57,7 +57,7 @@ function List(props) {
         console.log(formData);
         axios.post("http://localhost:3001/items/listItem", formData)
             .then((response) => {
-                console.log(response.data);
+                navigate('/');
             })
             .catch(error => {
                 console.error('There was an error!', error);

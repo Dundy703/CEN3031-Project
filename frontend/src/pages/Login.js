@@ -27,7 +27,7 @@ function Login(props) {
         axios.post(`http://localhost:3001/users/verifyUser`, formData)
             .then((response) => {
                 console.log(response.data);
-                if(response.data.message == "Successful Login"){
+                if(response.data.message === "Successful Login"){
                     localStorage.setItem('token', response.data.token);
                     props.setLoggedIn(true);
                     props.setEmail(formData.userEmail);
@@ -54,7 +54,7 @@ function Login(props) {
                     <input name="userPassword" type="password" value={formData.userPassword} onChange={handleChange} />
                 </p>
                 <br />
-                <a id="errorText">{error}</a>
+                <h2 id="errorText">{error}</h2>
                 <br />
                 <button type="submit">Log in</button>
                 <br />

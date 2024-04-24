@@ -74,7 +74,7 @@ const verifyUser = (request, response) => {
       }
   
       if (results.rows.length === 0) {
-        response.status(401).send('Incorrect Username or Password.');
+        response.status(401).send('Incorrect Username or Password');
         return;
       }
   

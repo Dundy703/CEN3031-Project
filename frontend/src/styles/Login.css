@@ -30,8 +30,8 @@
     width: 300px;
 }
 
-.login a {
-    font-size: 12px;
+.login h2 {
+    font-size: 14px;
     color: red;
     margin-top: 100px;
     display: inline-block;

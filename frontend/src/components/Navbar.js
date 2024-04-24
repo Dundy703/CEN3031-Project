@@ -9,7 +9,7 @@ function Navbar(props) {
   return (
     <div className="navbar">
       <div className="leftSide">
-        <Link to="/"><img src={Logo}></img></Link>
+        <Link to="/"><img src={Logo} alt="Logo"></img></Link>
       </div>
       <div className="rightSide">
         <Link to="/">Home</Link>
