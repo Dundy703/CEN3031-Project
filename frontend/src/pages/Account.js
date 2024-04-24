@@ -105,8 +105,8 @@ function Account(props) {
             <h1>{data.UserUsername}</h1>
             <h2>Name: {`${data.UserFirstName} ${data.UserLastName}`}</h2>
             <h2>Email: {data.UserEmail}</h2>
-            <p>Address: {`${data.UserAddressLine1}, ${data.UserAddressLine2}`}<br />
-            {`${data.UserCity}, ${data.UserState} ${data.UserZipCode}`}</p>
+            {ownAccount && <p>Address: {`${data.UserAddressLine1}, ${data.UserAddressLine2}`}<br />
+            {`${data.UserCity}, ${data.UserState} ${data.UserZipCode}`}</p>}
             </div>
         </div>
         <button 
