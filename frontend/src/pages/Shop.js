@@ -21,6 +21,7 @@ function Shop() {
     const {value} = e.target[0];
     console.log(e);
     setSearch(value);
+    setCurrentIndex(0);
   }
 
   useEffect(() => { 
