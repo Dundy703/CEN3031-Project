@@ -18,10 +18,11 @@ const pool = new Pool({
   } 
 })
 
+//Takes user information and adds a new user to the database; encrypts password.
 const createUser = (request, response) => {
     // get data to insert from the request body
     const { imageData, userEmail,  userUsername,userPassword,userFirstName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
-    // spooooky encryption :O
+    // Encryption Step
     bcrypt.hash(userPassword, 7, (hashError, hashedPassword) => {
         if (hashError) {
           throw hashError;
@@ -42,6 +43,7 @@ const createUser = (request, response) => {
   });
 };
 
+//Allows change of database info. Encrypts input password like create user query
 const updateUser = (request, response) => {
     const { imageData, userEmail,  userUsername,userPassword,userFirstName,userLastName,userAddressLine1,userAddressLine2,userState,userCity,userZipCode} = request.body;
 
@@ -64,7 +66,8 @@ const updateUser = (request, response) => {
   });
 };
 
-
+//Used for authentication. Intakes email and password and assures they are present in the database somewhere. Obscures which
+//is missing for increased security
 const verifyUser = (request, response) => {
     const { userEmail, userPassword } = request.body;
   
@@ -97,7 +100,7 @@ const verifyUser = (request, response) => {
 
 
 
-// method to get all users in the DB table
+// Gets all users in the database 
 const getUsers = (request, response) => {
     // execute the SELECT query, query results are put into results
     const userEmail = request.query.userEmail;
@@ -128,6 +131,7 @@ const getUsers = (request, response) => {
     })
   }
 
+  //Returns a specific usergiven usernames
   const getUserByUsername = (request, response) => {
     // execute the SELECT query, query results are put into results
     const userUsername = request.query.userUsername;
