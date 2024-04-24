@@ -7,6 +7,7 @@ import '../styles/Signup.css';
 
 function Signup(props) {
     let navigate = useNavigate();
+    if(props.loggedIn) navigate('/');
     const [fileURL, setFileURL] = useState();
 
     function handleImgChange(e) {

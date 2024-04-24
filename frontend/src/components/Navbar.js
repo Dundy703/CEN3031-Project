@@ -13,8 +13,8 @@ function Navbar(props) {
       </div>
       <div className="rightSide">
         <Link to="/">Home</Link>
-        <Link to="/shop">Shop</Link>
-        <Link to="/list">List</Link>
+        <Link to={loggedIn ? '/shop' : '/login'}>Shop</Link>
+        <Link to={loggedIn ? '/list' : '/login'}>List</Link>
         <Link to={loggedIn ? '/account' : '/login'}>{loggedIn ? 'Account' : 'Log in'}</Link>
       </div>
     </div>

@@ -40,12 +40,12 @@ function App() {
       <Router>
         <Navbar loggedIn={loggedIn}/>
         <Routes>
-          <Route path="/" element={<Home email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>} />
-          <Route path="/signup" exact element={<Signup setLoggedIn={setLoggedIn} setEmail={setEmail} />} />
-          <Route path="/login" exact element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} />} />
+          <Route path="/" element={<Home email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+          <Route path="/signup" exact element={<Signup setLoggedIn={setLoggedIn} setEmail={setEmail} loggedIn={loggedIn} />} />
+          <Route path="/login" exact element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} loggedIn={loggedIn} />} />
           <Route path="/shop" exact element={<Shop />} />
-          <Route path="/list" exact element={<List email={email}/>} />
-          <Route path="/account" exact element={<Account email={email}/>} />
+          <Route path="/list" exact element={<List email={email} />} />
+          <Route path="/account" exact element={<Account email={email} />} />
         </Routes>
       </Router>
     </div>

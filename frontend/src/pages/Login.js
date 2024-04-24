@@ -6,6 +6,7 @@ import '../styles/Login.css';
 
 function Login(props) {
     let navigate = useNavigate();
+    if(props.loggedIn) navigate('/');
     const [error, setError] = useState('');
     const [formData, setFormData] = useState({
         userEmail: '',
