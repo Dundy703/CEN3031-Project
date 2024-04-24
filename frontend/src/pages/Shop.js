@@ -1,21 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 import '../styles/Shop.css'
 
 function Shop() {
+  const ref = useRef(null);
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [results, setResults] = useState([]);
   const [items, setItems] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [likedItems, setLikedItems] = useState([]);
+  const [swipeDirection, setSwipeDirection] = useState('');
+  const swipeThresholdright = 300;
+  const swipeThresholdleft = 300;
 
-  useEffect(() => {
-    const searchInput = prompt("What would you like to search for"); 
-    if(searchInput) {
-      setSearch(searchInput);
-    }
-  }, []);
+  const doSearch = (e) => {
+    e.preventDefault();
+    const {value} = e.target[0];
+    console.log(e);
+    setSearch(value);
+  }
 
   useEffect(() => { 
     if(search){
@@ -48,11 +54,12 @@ function Shop() {
       });
   }, [results])
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-    const [likedItems, setLikedItems] = useState([]);
-    const [swipeDirection, setSwipeDirection] = useState('');
-    const swipeThresholdright = 300;
-    const swipeThresholdleft = 300;
+  useEffect(() => {
+    if(items.length > 0 && currentIndex < items.length && ref){
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [items])
+
 
     const swipe = (direction) => {
       setSwipeDirection(direction);
@@ -96,12 +103,13 @@ function Shop() {
     <div className="shop-header">
       <h1>Welcome to the Shop</h1>
       <p>Swipe right to like an item or left to dislike it. Check your liked items by clicking the button below each card.</p>
-      <input
-        type="text"
-        placeholder="Search items..."
-        className="search-bar"
-        // search logic
-      />
+      <form onSubmit={doSearch}>
+        <input
+          type="text"
+          placeholder="Search items..."
+          className="search-bar"
+        />
+      </form>
     </div>
         
         <AnimatePresence custom={swipeDirection}>
@@ -116,11 +124,14 @@ function Shop() {
               dragConstraints={{ left: 0, right: 0 }}
               onDragEnd={onDragEnd}
               className="card"
+              ref={ref}
             >
+            <div className='img-box'>
               <img
                 src={items[currentIndex].image}
                 alt={items[currentIndex].name}
               />
+            </div>
               <h2>{items[currentIndex].name}</h2>
               <p>Seller: {items[currentIndex].seller}</p>
               <p>Price: {items[currentIndex].price}</p>

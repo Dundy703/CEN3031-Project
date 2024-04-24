@@ -49,9 +49,25 @@ body {
   align-items: center; /* Center children horizontally */
 }
 
+.img-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 425px;
+}
+
 .card img {
-  max-width: 75%;
+  max-width: 90%;
+  min-height: 300px;
+  max-height: 425px;
   border-radius: 8px;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .card h2 {

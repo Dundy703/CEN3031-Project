@@ -28,3 +28,24 @@
     display:flex;
     flex-direction:column;
 }
+
+.listings {
+    display:flex;
+    flex-direction:column
+}
+
+.listing {
+    display:flex;
+    flex-direction:column;
+    align-items: top;
+    border: 1px solid black;
+    padding: 0 10px;
+}
+
+.price-button {
+    display: flex;
+}
+
+.price-button button{
+    margin-left: auto;
+}
