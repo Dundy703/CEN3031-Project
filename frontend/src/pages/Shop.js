@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import '../styles/Shop.css'
+import { useNavigate } from 'react-router-dom'; 
+import '../styles/Shop.css';
 
 function Shop() {
+    const navigate = useNavigate();
     const items = [
       {
         id: 1,
@@ -48,10 +50,11 @@ function Shop() {
     ];
   
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [swipeDirection, setSwipeDirection] = useState("");
-    const swipeThresholdright = 700;
-    const swipeThresholdleft = 700; 
-  
+    const [likedItems, setLikedItems] = useState([]);
+    const [swipeDirection, setSwipeDirection] = useState('');
+    const swipeThresholdright = 300;
+    const swipeThresholdleft = 300;
+
     const swipe = (direction) => {
       setSwipeDirection(direction);
       if (currentIndex < items.length - 1) {
@@ -66,7 +69,11 @@ function Shop() {
         swipe("left");
       }
     };
-  
+
+    const goToLikesPage = () => {
+        navigate('/likes');
+    };
+
     const variants = {
       enter: { x: 0, opacity: 0 },
       center: {
@@ -84,14 +91,24 @@ function Shop() {
         transition: { duration: 0.3 },
       }),
     };
-  
+
     return (
       <div className="shop">
+    <div className="shop-header">
+      <h1>Welcome to the Shop</h1>
+      <p>Swipe right to like an item or left to dislike it. Check your liked items by clicking the button below each card.</p>
+      <input
+        type="text"
+        placeholder="Search items..."
+        className="search-bar"
+        // search logic
+      />
+    </div>
+        
         <AnimatePresence custom={swipeDirection}>
           {items.length > 0 && currentIndex < items.length && (
             <motion.div
               key={items[currentIndex].id}
-              custom={swipeDirection}
               variants={variants}
               initial="enter"
               animate="center"
@@ -113,12 +130,16 @@ function Shop() {
                 <button onClick={() => swipe("left")}>Dislike</button>
                 <button onClick={() => swipe("right")}>Like</button>
               </div>
+              <div className="view-likes">
+                <button onClick={goToLikesPage} style={{ marginTop: '20px', fontSize: '16px' }}>
+                  View Liked Items
+                </button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
     );
-  }
-  
-  export default Shop;
-  
+}
+
+export default Shop;
