@@ -5,8 +5,8 @@ function Account() {
     let navigate = useNavigate();
     function logout() {
         localStorage.removeItem("token");
+        navigate("/");
         window.location.reload();
-
     }
     return (
 
