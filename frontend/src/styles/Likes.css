@@ -1,0 +1,81 @@
+/* Likes page container styling */
+.likes-page {
+    padding: 20px;
+    text-align: center;
+    background-color: #f0f0f0;
+    width: 100%; /* Full width of the container */
+  }
+  
+  /* Grid setup for liked items */
+  .liked-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 items per row in full-width view */
+    gap: 20px; /* Spacing between grid items */
+    padding: 20px;
+    justify-content: center;
+  }
+  
+  /* Style for each liked item, similar to shop items */
+  .liked-item {
+    background-color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Shadow similar to shop cards */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px;
+    text-align: center;
+    height: auto; /* Automatically adjust height based on content */
+  }
+  
+  /* Image styling inside liked items */
+  .liked-item img {
+    max-width: 100%; /* Make image responsive within the card */
+    border-radius: 8px; /* Rounded corners for images */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  /* Heading within liked items */
+  .liked-item h2 {
+    margin-top: 20px; /* Space above heading */
+    font-size: 24px; /* Large, readable text */
+  }
+  
+  /* Paragraph text styling */
+  .liked-item p {
+    margin-top: 10px; /* Space above paragraph */
+    font-size: 16px; /* Standard text size */
+    color: #333; /* Dark grey for readability */
+  }
+  .liked-item input, .liked-item button {
+    margin-top: 10px;
+    padding: 10px;
+    margin-right: 5px;
+  }
+  
+  .liked-item button {
+    background-color: #9ad6ff; /* Green background */
+    color: white; /* White text color */
+    border: none;
+    cursor: pointer;
+  }
+  
+  .liked-item button:hover {
+    background-color: #658fce; /* Darker green on hover */
+  }
+  
+  .liked-item input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 1024px) {
+    .liked-items {
+      grid-template-columns: repeat(2, 1fr); /* 2 items per row on mid-sized devices */
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .liked-items {
+      grid-template-columns: 1fr; /* 1 item per row on small screens */
+    }
+  }
+  

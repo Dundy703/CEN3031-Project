@@ -5,6 +5,7 @@ import Signup from './pages/Signup.js';
 import Login from './pages/Login.js';
 import List from './pages/List.js';
 import Shop from './pages/Shop.js';
+import Likes from './pages/Likes.js';
 import Account from './pages/Account.js';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import axios from 'axios';
@@ -44,6 +45,7 @@ function App() {
           <Route path="/signup" exact element={<Signup setLoggedIn={setLoggedIn} setEmail={setEmail} loggedIn={loggedIn} />} />
           <Route path="/login" exact element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} loggedIn={loggedIn} />} />
           <Route path="/shop" exact element={<Shop />} />
+          <Route path="/likes" element={<Likes />} />
           <Route path="/list" exact element={<List email={email} />} />
           <Route path="/account" exact element={<Account email={email} loggedIn={loggedIn} />} />
         </Routes>

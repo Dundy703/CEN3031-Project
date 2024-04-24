@@ -5,56 +5,96 @@ body {
 
 .shop {
   display: flex;
+  flex-direction: column;
+  align-items: center; /* This will center all children including the search bar */
   justify-content: center;
-  align-items: center;
-  height: 90vh;
-  background-color: #f0f0f0;
+  height: auto; /* Adjust if necessary for your design */
+  padding: 20px; /* Or any other value based on your design */
+  background-color: #f0f0f0; /* Or any other background color */
 }
 
+.shop-header {
+  width: 100%;
+  max-width: 600px; /* Adjust to the width of your cards if needed */
+  text-align: center; /* Center the text inside the header */
+  margin-bottom: 20px; /* Space before the next element */
+}
+
+.search-bar {
+  padding: 10px;
+  width: 100%;
+  max-width: 620px; /* This should match the width of your item cards for alignment */
+  margin: 10px 0; /* Adjust margin as needed */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+}
+.shop p {
+  color: #555;
+  font-size: 1rem; /* example size */
+  text-align: center;
+  margin-bottom: 2rem;
+}
 .card {
-  width: 600px;
-  height: 600px;
-  padding: 20px;
+  width: 100%;
+  max-width: 600px; /* Card won't exceed 600px width */
+  margin: 20px; /* Add some margin around the card */
   background-color: white;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   text-align: center;
+  padding: 20px;
+  display: flex; /* Enable flex layout */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
 }
 
 .card img {
   max-width: 75%;
-  max-height: 50%;
   border-radius: 8px;
 }
 
 .card h2 {
-  margin-top: 50px;
+  margin-top: 20px;
   font-size: 24px;
   font-weight: 500;
 }
 
 p {
-  font-size: 16px; /* Standard font size for paragraphs */
-  color: #333; /* Slightly darker color for better readability */
+  font-size: 16px;
+  color: #333;
 }
 
-.buttons {
+.buttons, .view-likes {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   margin-top: 20px;
 }
 
 .shop button {
-  padding: 15px 50px;
+  padding: 10px 20px;
+  margin: 0 10px; /* Gives some space between buttons */
   border: none;
-  background-color: #56e3ff;
+  background-color: #9ad6ff;
   color: black;
   border-radius: 5px;
   cursor: pointer;
   outline: none;
-  font-weight: 500; /* Medium weight for buttons */
+  font-weight: 500;
 }
 
 .shop button:hover {
-  background-color: #0056b3;
+  background-color: #658fce;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card {
+    width: 80%; /* Makes the card width responsive */
+    height: auto; /* Adjusts height based on content */
+  }
+
+  .card img {
+    max-width: 100%; /* Image uses full width of the card */
+  }
 }
