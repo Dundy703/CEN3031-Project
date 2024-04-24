@@ -113,6 +113,21 @@ const getUsers = (request, response) => {
     })
   }
 
+  const getUserByID = (request, response) => {
+    // execute the SELECT query, query results are put into results
+    const userEmail = request.query.userID;
+    pool.query('SELECT * FROM "Users" WHERE "User_ID" = ($1)', [userID], (error, results) => {
+      // if there's an error (query typo, server connection issue, etc), throw (will crash the service)
+      if (error) {
+        throw error
+      }
+      // return the query results
+      // HTTP code 200 = "success" for GET methods
+      // results.rows gives the actual query data
+      response.status(200).json(results.rows)
+    })
+  }
+
   const checkToken = (request, response) => {
     const token = request.headers.authorization.split(' ')[1];
     jwt.verify(token, secretKey, (err, decoded) => {
@@ -128,5 +143,6 @@ const getUsers = (request, response) => {
     createUser,
     updateUser,
     verifyUser,
-    checkToken
+    checkToken,
+    getUserByID
   }
